@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon index.js"
   },
-  "repository": "https://github.com/vuvanminh267nt/blog-080821-server.git",
+  "repository": "https://github.com/vuvanminh267nt/StudentManagement-BE.git",
   "author": "vuvanminh267nt",
   "license": "MIT",
   "dependencies": {
