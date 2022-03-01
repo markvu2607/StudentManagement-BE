@@ -2,16 +2,16 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import mongoose from 'mongoose'
+import mysql from 'mysql'
 import dotenv from 'dotenv'
-import posts from './routers/posts.js'
+import login from './routers/login.js'
 
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
 
-const URI = process.env.DATABASE_URL
+
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -20,15 +20,20 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(cors())
 
-app.use('/posts', posts)
+app.use('/login', login)
 
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log('Connected to DB')
-        app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`)
-        })
-    }).catch((err) => {
-        console.log('err: ', err)
+const db = mysql.createConnection({
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_NAME
+})
+
+db.connect(err => {
+    if (err) throw err
+    console.log('Connected to DB')
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`)
     })
+})
 
