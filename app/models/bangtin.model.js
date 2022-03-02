@@ -1,13 +1,14 @@
 const sql = require("./db.js");
 
-const BangTin = function (sinhVien) {
-  this.noiDung = sinhVien.noiDung;
+const BangTin = function (bangTin) {
+  this.noiDung = bangTin.noiDung;
+  this.thoiGianTao = new Date();
 };
 
 BangTin.Them = (bangTinMoi, result) => {
   sql.query(
-    "INSERT INTO bangtin SET NOIDUNG = ?",
-    [bangTinMoi.noiDung],
+    "INSERT INTO bangtin SET NOIDUNG = ?, THOIGIANTAO = ?",
+    [bangTinMoi.noiDung, bangTinMoi.thoiGianTao],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
