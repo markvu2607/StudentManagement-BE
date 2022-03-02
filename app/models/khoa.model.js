@@ -5,21 +5,21 @@ const Khoa = function (khoa) {
 };
 
 Khoa.Them = (khoaMoi, result) => {
-  sql.query("INSERT INTO khoa SET TENKHOA = ?", khoaMoi.tenKhoa, (err, res) => {
+  sql.query("INSERT INTO khoa SET tenKhoa = ?", khoaMoi.tenKhoa, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
-    console.log("Đã tạo khoa: ", { id: res.insertId, ...khoaMoi });
-    result(null, { id: res.insertId, ...khoaMoi });
+    console.log("Đã tạo khoa: ", { idKhoa: res.insertId, ...khoaMoi });
+    result(null, { idKhoa: res.insertId, ...khoaMoi });
   });
 };
 
-Khoa.Sua = (id, khoa, result) => {
+Khoa.Sua = (idKhoa, khoa, result) => {
   sql.query(
-    "UPDATE khoa SET TENKHOA = ? WHERE IDKHOA = ?",
-    [khoa.tenKhoa, id],
+    "UPDATE khoa SET tenKhoa = ? WHERE idKhoa = ?",
+    [khoa.tenKhoa, idKhoa],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -30,14 +30,14 @@ Khoa.Sua = (id, khoa, result) => {
         result({ kind: "not_found" }, null);
         return;
       }
-      console.log("Đã cập nhật khoa: ", { id: id, ...khoa });
-      result(null, { id: id, ...khoa });
+      console.log("Đã cập nhật khoa: ", { idKhoa: idKhoa, ...khoa });
+      result(null, { idKhoa: idKhoa, ...khoa });
     }
   );
 };
 
-Khoa.Xem = (id, result) => {
-  sql.query(`SELECT * FROM khoa WHERE IDKHOA = ${id}`, (err, res) => {
+Khoa.Xem = (idKhoa, result) => {
+  sql.query(`SELECT * FROM khoa WHERE idKhoa = ${idKhoa}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -55,7 +55,7 @@ Khoa.Xem = (id, result) => {
 Khoa.TimKiem = (tuKhoa, result) => {
   let query = "SELECT * FROM khoa";
   if (tuKhoa) {
-    query += ` WHERE TENKHOA LIKE '%${tuKhoa}%' OR IDKHOA LIKE '%${tuKhoa}%'`;
+    query += ` WHERE tenKhoa LIKE '%${tuKhoa}%' OR idKhoa LIKE '%${tuKhoa}%'`;
   }
   sql.query(query, (err, res) => {
     if (err) {

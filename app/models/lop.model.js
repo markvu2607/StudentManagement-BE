@@ -12,7 +12,7 @@ const Lop = function (lop) {
 
 Lop.Them = (lopMoi, result) => {
   sql.query(
-    "INSERT INTO lop SET IDMH = ?, TENLOP = ?, PHONGHOC = ?, SOLUONG = ?, THOIGIANBD = ?, THOIGIANKT = ?, TRANGTHAI = ?",
+    "INSERT INTO lophocphan SET idmh = ?, tenLop = ?, phongHoc = ?, soLuong = ?, thoiGianBd = ?, thoiGianKt = ?, trangThai = ?",
     [
       lopMoi.idmh,
       lopMoi.tenLop,
@@ -28,15 +28,15 @@ Lop.Them = (lopMoi, result) => {
         result(err, null);
         return;
       }
-      console.log("Đã tạo lớp: ", { id: res.insertId, ...lopMoi });
-      result(null, { id: res.insertId, ...lopMoi });
+      console.log("Đã tạo lớp: ", { idLop: res.insertId, ...lopMoi });
+      result(null, { idLop: res.insertId, ...lopMoi });
     }
   );
 };
 
-Lop.Sua = (id, lop, result) => {
+Lop.Sua = (idLop, lop, result) => {
   sql.query(
-    "UPDATE lop SET IDMH = ?, TENLOP = ?, PHONGHOC = ?, SOLUONG = ?, THOIGIANBD = ?, THOIGIANKT = ?, TRANGTHAI = ? WHERE IDLOP = ?",
+    "UPDATE lophocphan SET idmh = ?, tenLop = ?, phongHoc = ?, soLuong = ?, thoiGianBd = ?, thoiGianKt = ?, trangThai = ? WHERE idLop = ?",
     [
       lop.idmh,
       lop.tenLop,
@@ -45,7 +45,7 @@ Lop.Sua = (id, lop, result) => {
       lop.thoiGianBd,
       lop.thoiGianKt,
       lop.trangThai,
-      id,
+      idLop,
     ],
     (err, res) => {
       if (err) {
@@ -57,14 +57,14 @@ Lop.Sua = (id, lop, result) => {
         result({ kind: "not_found" }, null);
         return;
       }
-      console.log("Đã cập nhật lớp: ", { id: id, ...lop });
-      result(null, { id: id, ...lop });
+      console.log("Đã cập nhật lớp: ", { idLop: idLop, ...lop });
+      result(null, { idLop: idLop, ...lop });
     }
   );
 };
 
-Lop.Dung = (id, result) => {
-  sql.query("UPDATE lop SET TRANGTHAI = 0 WHERE IDLOP = ?", id, (err, res) => {
+Lop.Dung = (idLop, result) => {
+  sql.query("UPDATE lophocphan SET trangThai = 0 WHERE idLop = ?", idLop, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -74,13 +74,13 @@ Lop.Dung = (id, result) => {
       result({ kind: "not_found" }, null);
       return;
     }
-    console.log("Đã dừng lớp: ", { id: id });
-    result(null, id);
+    console.log("Đã dừng lớp: ", { idLop: idLop });
+    result(null, idLop);
   });
 };
 
-Lop.Xem = (id, result) => {
-  sql.query(`SELECT * FROM lop WHERE IDLOP = ${id}`, (err, res) => {
+Lop.Xem = (idLop, result) => {
+  sql.query(`SELECT * FROM lophocphan WHERE idLop = ${idLop}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -96,9 +96,9 @@ Lop.Xem = (id, result) => {
 };
 
 Lop.TimKiem = (tenLop, result) => {
-  let query = "SELECT * FROM lop";
+  let query = "SELECT * FROM lophocphan";
   if (tenLop) {
-    query += ` WHERE TENLOP LIKE '%${tenLop}%'`;
+    query += ` WHERE tenLop LIKE '%${tenLop}%'`;
   }
   sql.query(query, (err, res) => {
     if (err) {

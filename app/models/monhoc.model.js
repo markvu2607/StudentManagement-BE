@@ -9,7 +9,7 @@ const MonHoc = function (monHoc) {
 
 MonHoc.Them = (monHocMoi, result) => {
   sql.query(
-    "INSERT INTO monhoc SET TENMON = ?, TLMONHOC = ?, SOTINCHI = ?, TIENHOC = ?",
+    "INSERT INTO monhoc SET tenMon = ?, tlMonHoc = ?, soTinChi = ?, tienHoc = ?",
     [
       monHocMoi.tenMon,
       monHocMoi.tlMonHoc,
@@ -22,16 +22,16 @@ MonHoc.Them = (monHocMoi, result) => {
         result(err, null);
         return;
       }
-      console.log("Đã tạo môn học: ", { id: res.insertId, ...monHocMoi });
-      result(null, { id: res.insertId, ...monHocMoi });
+      console.log("Đã tạo môn học: ", { idmh: res.insertId, ...monHocMoi });
+      result(null, { idmh: res.insertId, ...monHocMoi });
     }
   );
 };
 
-MonHoc.Sua = (id, monHoc, result) => {
+MonHoc.Sua = (idmh, monHoc, result) => {
   sql.query(
-    "UPDATE monhoc SET TENMON = ?, TLMONHOC = ?, SOTINCHI = ?, TIENHOC = ? WHERE IDMH = ?",
-    [monHoc.tenMon, monHoc.tlMonHoc, monHoc.soTinChi, monHoc.tienHoc, id],
+    "UPDATE monhoc SET tenMon = ?, tlMonHoc = ?, soTinChi = ?, tienHoc = ? WHERE idmh = ?",
+    [monHoc.tenMon, monHoc.tlMonHoc, monHoc.soTinChi, monHoc.tienHoc, idmh],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -42,14 +42,14 @@ MonHoc.Sua = (id, monHoc, result) => {
         result({ kind: "not_found" }, null);
         return;
       }
-      console.log("Đã cập nhật môn học: ", { id: id, ...monHoc });
-      result(null, { id: id, ...monHoc });
+      console.log("Đã cập nhật môn học: ", { idmh: idmh, ...monHoc });
+      result(null, { idmh: idmh, ...monHoc });
     }
   );
 };
 
-MonHoc.Xem = (id, result) => {
-  sql.query(`SELECT * FROM monhoc WHERE IDMH = ${id}`, (err, res) => {
+MonHoc.Xem = (idmh, result) => {
+  sql.query(`SELECT * FROM monhoc WHERE idmh = ${idmh}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -67,7 +67,7 @@ MonHoc.Xem = (id, result) => {
 MonHoc.TimKiem = (tenMon, result) => {
   let query = "SELECT * FROM monhoc";
   if (tenMon) {
-    query += ` WHERE TENMON LIKE '%${tenMon}%'`;
+    query += ` WHERE tenmh LIKE '%${tenMon}%'`;
   }
   sql.query(query, (err, res) => {
     if (err) {

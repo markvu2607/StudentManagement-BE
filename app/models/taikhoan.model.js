@@ -9,7 +9,7 @@ const TaiKhoan = function (taiKhoan) {
 
 TaiKhoan.Them = (taiKhoanMoi, result) => {
   sql.query(
-    "INSERT INTO taikhoan SET TENDANGNHAP = ?, MATKHAU = ?, CHUCNANG = ?, TRANGTHAI = ?",
+    "INSERT INTO taikhoan SET tenDangNhap = ?, matKhau = ?, chucNang = ?, trangThai = ?",
     [
       taiKhoanMoi.tenDangNhap,
       taiKhoanMoi.matKhau,
@@ -28,15 +28,15 @@ TaiKhoan.Them = (taiKhoanMoi, result) => {
   );
 };
 
-TaiKhoan.Sua = (id, taiKhoan, result) => {
+TaiKhoan.Sua = (idtk, taiKhoan, result) => {
   sql.query(
-    "UPDATE taikhoan SET TENDANGNHAP = ?, MATKHAU = ?, CHUCNANG = ?, TRANGTHAI = ? WHERE IDTK = ?",
+    "UPDATE taikhoan SET tenDangNhap = ?, matKhau = ?, chucNang = ?, trangThai = ? WHERE idtk = ?",
     [
       taiKhoan.tenDangNhap,
       taiKhoan.matKhau,
       taiKhoan.chucNang,
       taiKhoan.trangThai,
-      id,
+      idtk,
     ],
     (err, res) => {
       if (err) {
@@ -48,15 +48,15 @@ TaiKhoan.Sua = (id, taiKhoan, result) => {
         result({ kind: "not_found" }, null);
         return;
       }
-      console.log("Đã cập nhật tài khoản: ", { id: id, ...taiKhoan });
-      result(null, { id: id, ...taiKhoan });
+      console.log("Đã cập nhật tài khoản: ", { idtk: idtk, ...taiKhoan });
+      result(null, { idtk: idtk, ...taiKhoan });
     }
   );
 };
 
-TaiKhoan.Khoa = (id, result) => {
+TaiKhoan.Khoa = (idtk, result) => {
   sql.query(
-    "UPDATE taikhoan SET TRANGTHAI = 0 WHERE IDTK = ?", id,
+    "UPDATE taikhoan SET trangThai = 0 WHERE idtk = ?", idtk,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -67,8 +67,8 @@ TaiKhoan.Khoa = (id, result) => {
         result({ kind: "not_found" }, null);
         return;
       }
-      console.log("Đã khóa tài khoản: ", { id: id });
-      result(null, id);
+      console.log("Đã khóa tài khoản: ", { idtk: idtk });
+      result(null, idtk);
     }
   );
 };

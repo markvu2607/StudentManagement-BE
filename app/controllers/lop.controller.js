@@ -37,15 +37,15 @@ exports.Sua = (req, res) => {
       message: "Nội dung trống!",
     });
   } else
-    Lop.Sua(req.params.id, new Lop(req.body), (err, data) => {
+    Lop.Sua(req.params.idLop, new Lop(req.body), (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Không tìm thấy lớp id ${req.params.id}.`,
+            message: `Không tìm thấy lớp id ${req.params.idLop}.`,
           });
         } else {
           res.status(500).send({
-            message: "Lỗi cập nhật lớp id " + req.params.id,
+            message: "Lỗi cập nhật lớp id " + req.params.idLop,
           });
         }
       } else res.send(data);
@@ -53,33 +53,33 @@ exports.Sua = (req, res) => {
 };
 
 exports.Dung = (req, res) => {
-  Lop.Dung(req.params.id, (err, data) => {
+  Lop.Dung(req.params.idLop, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Không tìm thấy lớp id ${req.params.id}.`,
+          message: `Không tìm thấy lớp id ${req.params.idLop}.`,
         });
       } else {
         res.status(500).send({
-          message: "Lỗi dừng lớp id " + req.params.id,
+          message: "Lỗi dừng lớp id " + req.params.idLop,
         });
       }
     } else
       res.send({
-        message: `Dừng thành công lớp ${req.params.id}!`,
+        message: `Dừng thành công lớp ${req.params.idLop}!`,
       });
   });
 };
 exports.Xem = (req, res) => {
-  Lop.Xem(req.params.id, (err, data) => {
+  Lop.Xem(req.params.idLop, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Không tìm thấy lớp id ${req.params.id}.`,
+          message: `Không tìm thấy lớp id ${req.params.idLop}.`,
         });
       } else {
         res.status(500).send({
-          message: "Lỗi khi tìm lớp id " + req.params.id,
+          message: "Lỗi khi tìm lớp id " + req.params.idLop,
         });
       }
     } else res.send(data);

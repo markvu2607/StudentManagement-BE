@@ -19,30 +19,30 @@ exports.Sua = (req, res) => {
       message: "Nội dung trống!",
     });
   } else
-    Khoa.Sua(req.params.id, new Khoa(req.body), (err, data) => {
+    Khoa.Sua(req.params.idKhoa, new Khoa(req.body), (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Không tìm thấy khoa id ${req.params.id}.`,
+            message: `Không tìm thấy khoa id ${req.params.idKhoa}.`,
           });
         } else {
           res.status(500).send({
-            message: "Lỗi cập nhật khoa id " + req.params.id,
+            message: "Lỗi cập nhật khoa id " + req.params.idKhoa,
           });
         }
       } else res.send(data);
     });
 };
 exports.Xem = (req, res) => {
-  Khoa.Xem(req.params.id, (err, data) => {
+  Khoa.Xem(req.params.idKhoa, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Không tìm thấy khoa id ${req.params.id}.`,
+          message: `Không tìm thấy khoa id ${req.params.idKhoa}.`,
         });
       } else {
         res.status(500).send({
-          message: "Lỗi khi tìm khoa id " + req.params.id,
+          message: "Lỗi khi tìm khoa id " + req.params.idKhoa,
         });
       }
     } else res.send(data);

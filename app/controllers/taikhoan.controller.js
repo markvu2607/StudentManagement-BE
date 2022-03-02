@@ -45,15 +45,15 @@ exports.Sua = (req, res) => {
       chucNang: req.body.chucNang,
       trangThai: req.body.trangThai,
     });
-    TaiKhoan.Sua(req.params.id, taiKhoan, (err, data) => {
+    TaiKhoan.Sua(req.params.idtk, taiKhoan, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Không tìm thấy tải khoản id ${req.params.id}.`,
+            message: `Không tìm thấy tải khoản id ${req.params.idtk}.`,
           });
         } else {
           res.status(500).send({
-            message: "Lỗi cập nhật tài khoản id " + req.params.id,
+            message: "Lỗi cập nhật tài khoản id " + req.params.idtk,
           });
         }
       } else res.send(data);
@@ -62,15 +62,15 @@ exports.Sua = (req, res) => {
 };
 
 exports.Khoa = (req, res) => {
-  TaiKhoan.Khoa(req.params.id, (err, data) => {
+  TaiKhoan.Khoa(req.params.idtk, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Không tìm thấy tài khoản id ${req.params.id}.`,
+          message: `Không tìm thấy tài khoản id ${req.params.idtk}.`,
         });
       } else {
         res.status(500).send({
-          message: "Không thể khóa tài khoản id " + req.params.id,
+          message: "Không thể khóa tài khoản id " + req.params.idtk,
         });
       }
     } else

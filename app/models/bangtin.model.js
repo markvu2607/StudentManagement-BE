@@ -7,7 +7,7 @@ const BangTin = function (bangTin) {
 
 BangTin.Them = (bangTinMoi, result) => {
   sql.query(
-    "INSERT INTO bangtin SET NOIDUNG = ?, THOIGIANTAO = ?",
+    "INSERT INTO bangtin SET noiDung = ?, thoiGianTao = ?",
     [bangTinMoi.noiDung, bangTinMoi.thoiGianTao],
     (err, res) => {
       if (err) {
@@ -15,8 +15,8 @@ BangTin.Them = (bangTinMoi, result) => {
         result(err, null);
         return;
       }
-      console.log("Đã tạo tài khoản: ", { id: res.insertId, ...bangTinMoi });
-      result(null, { id: res.insertId, ...bangTinMoi });
+      console.log("Đã tạo tài khoản: ", { idbt: res.insertId, ...bangTinMoi });
+      result(null, { idbt: res.insertId, ...bangTinMoi });
     }
   );
 };

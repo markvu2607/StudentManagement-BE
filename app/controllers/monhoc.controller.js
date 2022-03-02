@@ -29,30 +29,30 @@ exports.Sua = (req, res) => {
       message: "Nội dung trống!",
     });
   } else
-    MonHoc.Sua(req.params.id, new MonHoc(req.body), (err, data) => {
+    MonHoc.Sua(req.params.idmh, new MonHoc(req.body), (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Không tìm thấy môn học id ${req.params.id}.`,
+            message: `Không tìm thấy môn học id ${req.params.idmh}.`,
           });
         } else {
           res.status(500).send({
-            message: "Lỗi cập nhật môn học id " + req.params.id,
+            message: "Lỗi cập nhật môn học id " + req.params.idmh,
           });
         }
       } else res.send(data);
     });
 };
 exports.Xem = (req, res) => {
-  MonHoc.Xem(req.params.id, (err, data) => {
+  MonHoc.Xem(req.params.idmh, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Không tìm thấy môn học id ${req.params.id}.`,
+          message: `Không tìm thấy môn học id ${req.params.idmh}.`,
         });
       } else {
         res.status(500).send({
-          message: "Lỗi khi tìm môn học id " + req.params.id,
+          message: "Lỗi khi tìm môn học id " + req.params.idmh,
         });
       }
     } else res.send(data);

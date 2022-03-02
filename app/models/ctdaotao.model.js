@@ -1,15 +1,15 @@
 const sql = require("./db.js");
 
 const CtDaoTao = function (ctDaoTao) {
-  this.idk = ctDaoTao.idk;
   this.tenctdt = ctDaoTao.tenctdt;
-  this.noiDung = ctDaoTao.noiDung;
+  this.moTa = ctDaoTao.moTa;
+  this.idKhoa = ctDaoTao.idKhoa;
 };
 
 CtDaoTao.Them = (ctDaoTaoMoi, result) => {
   sql.query(
-    "INSERT INTO chuongtrinhdaotao SET IDKHOA = ?, TENCTDT = ?, NOIDUNG = ?",
-    [ctDaoTaoMoi.idk, ctDaoTaoMoi.tenctdt, ctDaoTaoMoi.noiDung],
+    "INSERT INTO ctdaotao SET tenctdt = ?, moTa = ?, idKhoa = ?",
+    [ctDaoTaoMoi.tenctdt, ctDaoTaoMoi.moTa, ctDaoTaoMoi.idKhoa],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -17,18 +17,18 @@ CtDaoTao.Them = (ctDaoTaoMoi, result) => {
         return;
       }
       console.log("Đã thêm chương trình đào tạo: ", {
-        idtk: res.insertId,
+        idctdt: res.insertId,
         ...ctDaoTaoMoi,
       });
-      result(null, { idtk: res.insertId, ...ctDaoTaoMoi });
+      result(null, { idctdt: res.insertId, ...ctDaoTaoMoi });
     }
   );
 };
 
-CtDaoTao.Sua = (id, ctDaoTao, result) => {
+CtDaoTao.Sua = (idctdt, ctDaoTao, result) => {
   sql.query(
-    "UPDATE chuongtrinhdaotao SET IDKHOA = ?, TENCTDT = ?, NOIDUNG = ?",
-    [ctDaoTao.idk, ctDaoTao.tenctdt, ctDaoTao.noiDung, id],
+    "UPDATE ctdaotao SET tenctdt = ?, moTa = ?, idKhoa = ? WHERE = ?",
+    [ctDaoTao.tenctdt, ctDaoTao.moTa, ctDaoTao.idKhoa, idctdt],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -40,23 +40,23 @@ CtDaoTao.Sua = (id, ctDaoTao, result) => {
         return;
       }
       console.log("Đã cập nhật chương trình đào tạo: ", {
-        id: id,
+        idctdt: idctdt,
         ...ctDaoTao,
       });
-      result(null, { id: id, ...ctDaoTao });
+      result(null, { idctdt: idctdt, ...ctDaoTao });
     }
   );
 };
 
-CtDaoTao.Xem = (id, result) => {
-  sql.query(`SELECT * FROM chuongtrinhdaotao WHERE IDKHOA = ${id}`, (err, res) => {
+CtDaoTao.Xem = (idctdt, result) => {
+  sql.query(`SELECT * FROM ctdaotao WHERE idctdt = ${idctdt}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
     if (res.length) {
-      console.log("Xem ctdt: ", res[0]);
+      console.log("Xem chương trình đào tạo: ", res[0]);
       result(null, res[0]);
       return;
     }
@@ -65,9 +65,9 @@ CtDaoTao.Xem = (id, result) => {
 };
 
 CtDaoTao.TimKiem = (tenctdt, result) => {
-  let query = "SELECT * FROM chuongtrinhdaotao";
+  let query = "SELECT * FROM ctdaotao";
   if (tenctdt) {
-    query += ` WHERE TENCTDT LIKE '%${tenctdt}%'`;
+    query += ` WHERE tenctdt LIKE '%${tenctdt}%'`;
   }
   sql.query(query, (err, res) => {
     if (err) {

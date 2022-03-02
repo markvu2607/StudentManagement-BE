@@ -3,12 +3,12 @@ const sql = require("./db.js");
 const SinhVien = function (sinhVien) {
   this.tenSV = sinhVien.tenSV;
   this.ngaySinh = sinhVien.ngaySinh;
-  this.gioiTinh = sinhVien.gioiTinh;
+  this.laNam = sinhVien.laNam;
+  this.kyTucXa = sinhVien.kyTucXa;
   this.queQuan = sinhVien.queQuan;
   this.diaChi = sinhVien.diaChi;
   this.sdt = sinhVien.sdt;
   this.cccd = sinhVien.cccd;
-  this.idtk = sinhVien.idtk;
   this.tenBo = sinhVien.tenBo;
   this.namSinhBo = sinhVien.namSinhBo;
   this.ngheNghiepBo = sinhVien.ngheNghiepBo;
@@ -17,21 +17,23 @@ const SinhVien = function (sinhVien) {
   this.namSinhMe = sinhVien.namSinhMe;
   this.ngheNghiepMe = sinhVien.ngheNghiepMe;
   this.sdtMe = sinhVien.sdtMe;
+  this.idKhoa = sinhVien.idKhoa;
+  this.idtk = sinhVien.idtk;
 };
 
 SinhVien.Them = (sinhVienMoi, result) => {
   sql.query(
-    "INSERT INTO sinhvien SET TENSV = ?, NGAYSINH = ?, GIOITINH = ?, QUEQUAN = ?, DIACHI = ?, SDT = ?, CCCD = ?, IDTK = ?, " +
-      "TENBO = ?, NAMSINHBO = ?, NGHENGHIEPBO = ?, SDTBO = ?, TENME = ?, NAMSINHME = ?, NGHENGHIEPME = ?, SDTME = ?",
+    "INSERT INTO sinhvien SET tenSV = ?, ngaySinh = ?, laNam = ?, kyTucXa = ?, queQuan = ?, diaChi = ?, sdt = ?, cccd = ?, " +
+      "tenBo = ?, namSinhBo = ?, ngheNghiepBo = ?, sdtBo = ?, tenMe = ?, namSinhMe = ?, ngheNghiepMe = ?, sdtMe = ?, idKhoa = ?, idtk = ?",
     [
       sinhVienMoi.tenSV,
       sinhVienMoi.ngaySinh,
-      sinhVienMoi.gioiTinh,
+      sinhVienMoi.laNam,
+      sinhVienMoi.kyTucXa,
       sinhVienMoi.queQuan,
       sinhVienMoi.diaChi,
       sinhVienMoi.sdt,
       sinhVienMoi.cccd,
-      sinhVienMoi.idtk,
       sinhVienMoi.tenBo,
       sinhVienMoi.namSinhBo,
       sinhVienMoi.ngheNghiepBo,
@@ -40,6 +42,8 @@ SinhVien.Them = (sinhVienMoi, result) => {
       sinhVienMoi.namSinhMe,
       sinhVienMoi.ngheNghiepMe,
       sinhVienMoi.sdtMe,
+      sinhVienMoi.idKhoa,
+      sinhVienMoi.idtk,
     ],
     (err, res) => {
       if (err) {
@@ -47,25 +51,25 @@ SinhVien.Them = (sinhVienMoi, result) => {
         result(err, null);
         return;
       }
-      console.log("Đã tạo tài khoản: ", { idtk: res.insertId, ...sinhVienMoi });
-      result(null, { idtk: res.insertId, ...sinhVienMoi });
+      console.log("Đã thêm sinh viên: ", { idsv: res.insertId, ...sinhVienMoi });
+      result(null, { idsv: res.insertId, ...sinhVienMoi });
     }
   );
 };
 
-SinhVien.Sua = (id, sinhVien, result) => {
+SinhVien.Sua = (idsv, sinhVien, result) => {
   sql.query(
-    "UPDATE sinhvien SET TENSV = ?, NGAYSINH = ?, GIOITINH = ?, QUEQUAN = ?, DIACHI = ?, SDT = ?, CCCD = ?, IDTK = ?, " +
-      "TENBO = ?, NAMSINHBO = ?, NGHENGHIEPBO = ?, SDTBO = ?, TENME = ?, NAMSINHME = ?, NGHENGHIEPME = ?, SDTME = ? WHERE IDSV = ?",
+    "UPDATE sinhvien SET tenSV = ?, ngaySinh = ?, laNam = ?, kyTucXa = ?, queQuan = ?, diaChi = ?, sdt = ?, cccd = ?, " +
+    "tenBo = ?, namSinhBo = ?, ngheNghiepBo = ?, sdtBo = ?, tenMe = ?, namSinhMe = ?, ngheNghiepMe = ?, sdtMe = ?, idKhoa = ?, idtk = ? WHERE idsv = ?",
     [
       sinhVien.tenSV,
       sinhVien.ngaySinh,
-      sinhVien.gioiTinh,
+      sinhVien.laNam,
+      sinhVien.kyTucXa,
       sinhVien.queQuan,
       sinhVien.diaChi,
       sinhVien.sdt,
       sinhVien.cccd,
-      sinhVien.idtk,
       sinhVien.tenBo,
       sinhVien.namSinhBo,
       sinhVien.ngheNghiepBo,
@@ -74,7 +78,9 @@ SinhVien.Sua = (id, sinhVien, result) => {
       sinhVien.namSinhMe,
       sinhVien.ngheNghiepMe,
       sinhVien.sdtMe,
-      id,
+      sinhVien.idKhoa,
+      sinhVien.idtk,
+      idsv,
     ],
     (err, res) => {
       if (err) {
@@ -86,14 +92,14 @@ SinhVien.Sua = (id, sinhVien, result) => {
         result({ kind: "not_found" }, null);
         return;
       }
-      console.log("Đã cập nhật sinh viên: ", { id: id, ...sinhVien });
-      result(null, { id: id, ...sinhVien });
+      console.log("Đã cập nhật sinh viên: ", { idsv: idsv, ...sinhVien });
+      result(null, { idsv: idsv, ...sinhVien });
     }
   );
 };
 
-SinhVien.Xem = (id, result) => {
-  sql.query(`SELECT * FROM sinhvien WHERE IDSV = ${id}`, (err, res) => {
+SinhVien.Xem = (idsv, result) => {
+  sql.query(`SELECT * FROM sinhvien WHERE idsv = ${idsv}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -111,7 +117,7 @@ SinhVien.Xem = (id, result) => {
 SinhVien.TimKiem = (tuKhoa, result) => {
   let query = "SELECT * FROM sinhvien";
   if (tuKhoa) {
-    query += ` WHERE TENSV LIKE '%${tuKhoa}%' OR IDSV LIKE '%${tuKhoa}%'`;
+    query += ` WHERE tensv LIKE '%${tuKhoa}%' OR idsv LIKE '%${tuKhoa}%'`;
   }
   sql.query(query, (err, res) => {
     if (err) {
