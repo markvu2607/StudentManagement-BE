@@ -1,8 +1,8 @@
 const SinhVien = require("../models/sinhvien.model.js");
 exports.Them = (req, res) => {
-  if (!req.body) {
+  if (req.body) {
     res.status(400).send({
-      message: "Không được để trống thông tin!",
+      message: "Nội dung trống!",
     });
   }
   const sinhVien = new SinhVien({
@@ -33,7 +33,7 @@ exports.Them = (req, res) => {
 };
 
 exports.Sua = (req, res) => {
-  if (!req.body) {
+  if (req.body) {
     res.status(400).send({
       message: "Nội dung trống!",
     });

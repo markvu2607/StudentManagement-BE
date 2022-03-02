@@ -1,32 +1,26 @@
 const CtDaoTao = require("../models/ctdaotao.model.js");
 
 exports.Them = (req, res) => {
-  if (!req.body) {
+  if (!req.body.idk || !req.body.tenctdt || !req.body.noiDung) {
     res.status(400).send({
       message: "Không được để trống thông tin!",
     });
-  }
-  const ctDaoTao = new CtDaoTao({
-    idk: req.body.idk,
-    tenctdt: req.body.tenctdt,
-    noiDung: req.body.noiDung,
-  });
-  CtDaoTao.Them(ctDaoTao, (err, data) => {
-    if (err)
-      res.status(500).send({
-        message: err.message || "Có lỗi khi thêm chương trình đào tạo.",
-      });
-    else res.send(data);
-  });
+  } else
+    CtDaoTao.Them(new CtDaoTao(req.body), (err, data) => {
+      if (err)
+        res.status(500).send({
+          message: err.message || "Có lỗi khi thêm chương trình đào tạo.",
+        });
+      else res.send(data);
+    });
 };
 
 exports.Sua = (req, res) => {
-  if (!req.body) {
+  if (!req.body.idk || !req.body.tenctdt || !req.body.noiDung) {
     res.status(400).send({
       message: "Nội dung trống!",
     });
   }
-  console.log(req.body);
   CtDaoTao.Sua(req.params.id, new CtDaoTao(req.body), (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
