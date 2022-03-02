@@ -18,6 +18,7 @@ require("./app/routes/khoa.routes.js")(app);
 require("./app/routes/ctdaotao.routes.js")(app);
 require("./app/routes/bangtin.routes.js")(app);
 require("./app/routes/monhoc.routes.js")(app);
+require("./app/routes/lop.routes.js")(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

@@ -6,4 +6,3 @@ module.exports = (app) => {
     router.get("/", monHoc.TimKiem);
     app.use("/api/monhoc", router);
   };
-  

@@ -3,7 +3,7 @@ const CtDaoTao = require("../models/ctdaotao.model.js");
 exports.Them = (req, res) => {
   if (!req.body.idk || !req.body.tenctdt || !req.body.noiDung) {
     res.status(400).send({
-      message: "Không được để trống thông tin!",
+      message: "Nội dung trống!",
     });
   } else
     CtDaoTao.Them(new CtDaoTao(req.body), (err, data) => {
