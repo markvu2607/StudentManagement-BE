@@ -3,12 +3,19 @@ const sql = require("./db.js");
 const MonHoc = function (monHoc) {
   this.tenMon = monHoc.tenMon;
   this.tlMonHoc = monHoc.tlMonHoc;
+  this.soTinChi = monHoc.soTinChi;
+  this.tienHoc = monHoc.tienHoc;
 };
 
 MonHoc.Them = (monHocMoi, result) => {
   sql.query(
-    "INSERT INTO monhoc SET TENMON = ?, TLMONHOC = ?",
-    [monHocMoi.tenMon, monHocMoi.tlMonHoc],
+    "INSERT INTO monhoc SET TENMON = ?, TLMONHOC = ?, SOTINCHI = ?, TIENHOC = ?",
+    [
+      monHocMoi.tenMon,
+      monHocMoi.tlMonHoc,
+      monHocMoi.soTinChi,
+      monHocMoi.tienHoc,
+    ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -23,8 +30,8 @@ MonHoc.Them = (monHocMoi, result) => {
 
 MonHoc.Sua = (id, monHoc, result) => {
   sql.query(
-    "UPDATE monhoc SET TENMON = ?, TLMONHOC = ? WHERE IDMH = ?",
-    [monHoc.tenMon, monHoc.tlMonHoc, id],
+    "UPDATE monhoc SET TENMON = ?, TLMONHOC = ?, SOTINCHI = ?, TIENHOC = ? WHERE IDMH = ?",
+    [monHoc.tenMon, monHoc.tlMonHoc, monHoc.soTinChi, monHoc.tienHoc, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

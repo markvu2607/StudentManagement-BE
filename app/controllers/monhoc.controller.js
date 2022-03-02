@@ -7,7 +7,9 @@ exports.Them = (req, res) => {
   }
   const monHoc = new MonHoc({
     tenMon: req.body.tenMon,
-    tlMonHoc: req.body.tlMonHoc
+    tlMonHoc: req.body.tlMonHoc,
+    soTinChi: req.body.soTinChi,
+    tienHoc: req.body.tienHoc
   });
   MonHoc.Them(monHoc, (err, data) => {
     if (err)
