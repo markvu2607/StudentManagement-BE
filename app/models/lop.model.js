@@ -64,23 +64,36 @@ Lop.Sua = (id, lop, result) => {
 };
 
 Lop.Dung = (id, result) => {
-    sql.query(
-      "UPDATE lop SET TRANGTHAI = 0 WHERE IDLOP = ?", id,
-      (err, res) => {
-        if (err) {
-          console.log("error: ", err);
-          result(null, err);
-          return;
-        }
-        if (res.affectedRows == 0) {
-          result({ kind: "not_found" }, null);
-          return;
-        }
-        console.log("Đã dừng lớp: ", { id: id });
-        result(null, id);
-      }
-    );
-  };
+  sql.query("UPDATE lop SET TRANGTHAI = 0 WHERE IDLOP = ?", id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    if (res.affectedRows == 0) {
+      result({ kind: "not_found" }, null);
+      return;
+    }
+    console.log("Đã dừng lớp: ", { id: id });
+    result(null, id);
+  });
+};
+
+Lop.Xem = (id, result) => {
+  sql.query(`SELECT * FROM lop WHERE IDLOP = ${id}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if (res.length) {
+      console.log("Xem lớp: ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+    result({ kind: "not_found" }, null);
+  });
+};
 
 Lop.TimKiem = (tenLop, result) => {
   let query = "SELECT * FROM lop";

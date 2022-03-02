@@ -48,6 +48,22 @@ MonHoc.Sua = (id, monHoc, result) => {
   );
 };
 
+MonHoc.Xem = (id, result) => {
+  sql.query(`SELECT * FROM monhoc WHERE IDMH = ${id}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if (res.length) {
+      console.log("Xem môn học: ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+    result({ kind: "not_found" }, null);
+  });
+};
+
 MonHoc.TimKiem = (tenMon, result) => {
   let query = "SELECT * FROM monhoc";
   if (tenMon) {

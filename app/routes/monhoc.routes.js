@@ -3,6 +3,7 @@ module.exports = (app) => {
     var router = require("express").Router();
     router.post("/", monHoc.Them);
     router.put("/:id", monHoc.Sua);
+    router.get("/:id", monHoc.Xem);
     router.get("/", monHoc.TimKiem);
     app.use("/api/monhoc", router);
   };

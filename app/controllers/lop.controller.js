@@ -70,7 +70,21 @@ exports.Dung = (req, res) => {
       });
   });
 };
-
+exports.Xem = (req, res) => {
+  Lop.Xem(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Không tìm thấy lớp id ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Lỗi khi tìm lớp id " + req.params.id,
+        });
+      }
+    } else res.send(data);
+  });
+};
 exports.TimKiem = (req, res) => {
   const tenLop = req.query.tenLop;
   Lop.TimKiem(tenLop, (err, data) => {

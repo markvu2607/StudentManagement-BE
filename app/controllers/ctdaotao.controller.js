@@ -35,7 +35,21 @@ exports.Sua = (req, res) => {
     } else res.send(data);
   });
 };
-
+exports.Xem = (req, res) => {
+  CtDaoTao.Xem(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Không tìm thấy chương trình đào tạo id ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Lỗi khi tìm chương trình đào tạo id " + req.params.id,
+        });
+      }
+    } else res.send(data);
+  });
+};
 exports.TimKiem = (req, res) => {
   const tenctdt = req.query.tenctdt;
   CtDaoTao.TimKiem(tenctdt, (err, data) => {

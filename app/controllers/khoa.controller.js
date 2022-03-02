@@ -33,6 +33,21 @@ exports.Sua = (req, res) => {
       } else res.send(data);
     });
 };
+exports.Xem = (req, res) => {
+  Khoa.Xem(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Không tìm thấy khoa id ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Lỗi khi tìm khoa id " + req.params.id,
+        });
+      }
+    } else res.send(data);
+  });
+};
 exports.TimKiem = (req, res) => {
   const tuKhoa = req.query.tuKhoa;
   Khoa.TimKiem(tuKhoa, (err, data) => {

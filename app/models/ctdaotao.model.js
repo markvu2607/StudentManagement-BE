@@ -48,6 +48,22 @@ CtDaoTao.Sua = (id, ctDaoTao, result) => {
   );
 };
 
+CtDaoTao.Xem = (id, result) => {
+  sql.query(`SELECT * FROM chuongtrinhdaotao WHERE IDKHOA = ${id}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if (res.length) {
+      console.log("Xem ctdt: ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+    result({ kind: "not_found" }, null);
+  });
+};
+
 CtDaoTao.TimKiem = (tenctdt, result) => {
   let query = "SELECT * FROM chuongtrinhdaotao";
   if (tenctdt) {
