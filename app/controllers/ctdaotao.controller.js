@@ -2,7 +2,7 @@ import CtDaoTao from "../models/ctdaotao.model.js"
 
 const CtDaoTaoController = {
   Them: (req, res) => {
-    if (!req.body.idKhoa || !req.body.tenctdt || !req.body.noiDung) {
+    if (!req.body.idKhoa || !req.body.tenctdt || !req.body.moTa) {
       res.status(400).send({
         message: "Nội dung trống!",
       });
