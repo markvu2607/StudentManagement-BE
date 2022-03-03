@@ -5,5 +5,8 @@ module.exports = (app) => {
   router.put("/:idctdt", ctDaoTao.Sua);
   router.get("/:idctdt", ctDaoTao.Xem);
   router.get("/", ctDaoTao.TimKiem);
+  router.get("/chitiet/:idctdt", ctDaoTao.XemChiTiet);
+  router.post("/chitiet/", ctDaoTao.ThemChiTiet);
+  router.delete("/chitiet/", ctDaoTao.XoaChiTiet);
   app.use("/api/ctdaotao", router);
 };

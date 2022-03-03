@@ -1,4 +1,4 @@
-const Lop = require("../models/lop.model.js");
+const LopHocPhan = require("../models/lophocphan.model.js");
 
 exports.Them = (req, res) => {
   if (
@@ -14,7 +14,7 @@ exports.Them = (req, res) => {
       message: "Nội dung trống!",
     });
   } else
-    Lop.Them(new Lop(req.body), (err, data) => {
+  LopHocPhan.Them(new LopHocPhan(req.body), (err, data) => {
       if (err)
         res.status(500).send({
           message: err.message || "Có lỗi khi tạo tài khoản.",
@@ -37,7 +37,7 @@ exports.Sua = (req, res) => {
       message: "Nội dung trống!",
     });
   } else
-    Lop.Sua(req.params.idLop, new Lop(req.body), (err, data) => {
+  LopHocPhan.Sua(req.params.idLop, new LopHocPhan(req.body), (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
@@ -53,7 +53,7 @@ exports.Sua = (req, res) => {
 };
 
 exports.Dung = (req, res) => {
-  Lop.Dung(req.params.idLop, (err, data) => {
+  LopHocPhan.Dung(req.params.idLop, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -71,7 +71,7 @@ exports.Dung = (req, res) => {
   });
 };
 exports.Xem = (req, res) => {
-  Lop.Xem(req.params.idLop, (err, data) => {
+  LopHocPhan.Xem(req.params.idLop, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -87,7 +87,7 @@ exports.Xem = (req, res) => {
 };
 exports.TimKiem = (req, res) => {
   const tenLop = req.query.tenLop;
-  Lop.TimKiem(tenLop, (err, data) => {
+  LopHocPhan.TimKiem(tenLop, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

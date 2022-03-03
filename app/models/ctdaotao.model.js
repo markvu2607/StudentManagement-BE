@@ -1,6 +1,7 @@
 const sql = require("./db.js");
 
-const CtDaoTao = function (ctDaoTao) {
+const CtDaoTao = function (idctdt, ctDaoTao) {
+  if (idctdt) this.idctdt = idctdt;
   this.tenctdt = ctDaoTao.tenctdt;
   this.moTa = ctDaoTao.moTa;
   this.idKhoa = ctDaoTao.idKhoa;
@@ -16,11 +17,9 @@ CtDaoTao.Them = (ctDaoTaoMoi, result) => {
         result(err, null);
         return;
       }
-      console.log("Đã thêm chương trình đào tạo: ", {
-        idctdt: res.insertId,
-        ...ctDaoTaoMoi,
-      });
-      result(null, { idctdt: res.insertId, ...ctDaoTaoMoi });
+      let ctdt = new CtDaoTao(res.insertId, ctDaoTaoMoi);
+      console.log("Đã thêm chương trình đào tạo: ", ctdt);
+      result(null, ctdt);
     }
   );
 };
@@ -39,11 +38,9 @@ CtDaoTao.Sua = (idctdt, ctDaoTao, result) => {
         result({ kind: "not_found" }, null);
         return;
       }
-      console.log("Đã cập nhật chương trình đào tạo: ", {
-        idctdt: idctdt,
-        ...ctDaoTao,
-      });
-      result(null, { idctdt: idctdt, ...ctDaoTao });
+      let ctdt = new CtDaoTao(idctdt, ctDaoTao);
+      console.log("Đã cập nhật chương trình đào tạo: ", ctdt);
+      result(null, ctdt);
     }
   );
 };
@@ -56,8 +53,9 @@ CtDaoTao.Xem = (idctdt, result) => {
       return;
     }
     if (res.length) {
-      console.log("Xem chương trình đào tạo: ", res[0]);
-      result(null, res[0]);
+      let ctdt = new CtDaoTao(idctdt, res[0]);
+      console.log("Xem chương trình đào tạo: ", ctdt);
+      result(null, ctdt);
       return;
     }
     result({ kind: "not_found" }, null);
@@ -80,3 +78,58 @@ CtDaoTao.TimKiem = (tenctdt, result) => {
   });
 };
 module.exports = CtDaoTao;
+
+CtDaoTao.XemChiTiet = (idctdt, result) => {
+  sql.query(
+    `SELECT monhoc.* FROM ctchuongtrinh INNER JOIN monhoc ON ctchuongtrinh.idmh = monhoc.idmh WHERE ctchuongtrinh.idctdt = ${idctdt};`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      if (res.length) {
+        console.log("Xem chi tiết chương trình đào tạo: ", res);
+        result(null, res);
+        return;
+      }
+      result({ kind: "not_found" }, null);
+    }
+  );
+};
+
+CtDaoTao.ThemChiTiet = (idctdt, idmh, result) => {
+  sql.query(
+    "INSERT INTO ctchuongtrinh SET idctdt = ?, idmh = ?",
+    [idctdt, idmh],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      console.log(`Đã thêm môn học idmh ${idmh} vào chương trình đào tạo idctdt ${idctdt}`);
+      result(null, {idctdt, idmh});
+    }
+  );
+};
+
+CtDaoTao.XoaChiTiet = (idctdt, idmh, result) => {
+  sql.query(
+    `DELETE FROM ctchuongtrinh WHERE (idctdt = ?) and (idmh = ?);`, [idctdt, idmh],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+      let resp = `Đã xóa môn học idmh ${idmh} khỏi chương trình đào tạo idctdt ${idctdt}`;
+      console.log(resp);
+      result(null, resp);
+    }
+  );
+};

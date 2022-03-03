@@ -1,6 +1,6 @@
 const sql = require("./db.js");
 
-const Lop = function (lop) {
+const LopHocPhan = function (lop) {
   this.idmh = lop.idmh;
   this.tenLop = lop.tenLop;
   this.phongHoc = lop.phongHoc;
@@ -10,7 +10,7 @@ const Lop = function (lop) {
   this.trangThai = lop.trangThai;
 };
 
-Lop.Them = (lopMoi, result) => {
+LopHocPhan.Them = (lopMoi, result) => {
   sql.query(
     "INSERT INTO lophocphan SET idmh = ?, tenLop = ?, phongHoc = ?, soLuong = ?, thoiGianBd = ?, thoiGianKt = ?, trangThai = ?",
     [
@@ -34,7 +34,7 @@ Lop.Them = (lopMoi, result) => {
   );
 };
 
-Lop.Sua = (idLop, lop, result) => {
+LopHocPhan.Sua = (idLop, lop, result) => {
   sql.query(
     "UPDATE lophocphan SET idmh = ?, tenLop = ?, phongHoc = ?, soLuong = ?, thoiGianBd = ?, thoiGianKt = ?, trangThai = ? WHERE idLop = ?",
     [
@@ -63,7 +63,7 @@ Lop.Sua = (idLop, lop, result) => {
   );
 };
 
-Lop.Dung = (idLop, result) => {
+LopHocPhan.Dung = (idLop, result) => {
   sql.query("UPDATE lophocphan SET trangThai = 0 WHERE idLop = ?", idLop, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -79,7 +79,7 @@ Lop.Dung = (idLop, result) => {
   });
 };
 
-Lop.Xem = (idLop, result) => {
+LopHocPhan.Xem = (idLop, result) => {
   sql.query(`SELECT * FROM lophocphan WHERE idLop = ${idLop}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -95,7 +95,7 @@ Lop.Xem = (idLop, result) => {
   });
 };
 
-Lop.TimKiem = (tenLop, result) => {
+LopHocPhan.TimKiem = (tenLop, result) => {
   let query = "SELECT * FROM lophocphan";
   if (tenLop) {
     query += ` WHERE tenLop LIKE '%${tenLop}%'`;
@@ -110,4 +110,4 @@ Lop.TimKiem = (tenLop, result) => {
     result(null, res);
   });
 };
-module.exports = Lop;
+module.exports = LopHocPhan;
