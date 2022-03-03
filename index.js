@@ -4,14 +4,19 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import mysql from 'mysql'
 import dotenv from 'dotenv'
-import login from './routers/login.js'
+import loginRoutes from './app/routers/login.routes.js'
+import taiKhoanRoutes from "./app/routers/taikhoan.routes.js"
+import sinhVienRoutes from "./app/routers/sinhvien.routes.js"
+import khoaRoutes from "./app/routers/khoa.routes.js"
+import ctDaoTaoRoutes from "./app/routers/ctdaotao.routes.js"
+import bangTinRoutes from "./app/routers/bangtin.routes.js"
+import monHocRoutes from "./app/routers/monhoc.routes.js"
+import lopRoutes from "./app/routers/lop.routes.js"
 
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
-
-
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -20,16 +25,21 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(cors())
 
-app.use('/login', login)
+app.use('/api/login', loginRoutes)
+app.use('/api/taikhoan', taiKhoanRoutes)
+app.use('/api/sinhvien', sinhVienRoutes)
+app.use("/api/khoa", khoaRoutes);
+app.use("/api/ctdaotao", ctDaoTaoRoutes);
+// app.use("/api/bangtin", bangTinRoutes);
+app.use("/api/monhoc", monHocRoutes);
+app.use("/api/lop", lopRoutes);
 
-const db = mysql.createConnection({
+mysql.createConnection({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USERNAME,
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_NAME
-})
-
-db.connect(err => {
+}).connect(err => {
     if (err) throw err
     console.log('Connected to DB')
     app.listen(PORT, () => {
