@@ -11,6 +11,8 @@ export const queryDB = (...params) => {
   con.connect(function (err) {
     if (err) throw err;
     con.query(...params);
+
+    con.end()
   });
 }
 
