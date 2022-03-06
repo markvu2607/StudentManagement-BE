@@ -51,7 +51,10 @@ SinhVien.Them = (sinhVienMoi, result) => {
         result(err, null);
         return;
       }
-      console.log("Đã thêm sinh viên: ", { idsv: res.insertId, ...sinhVienMoi });
+      console.log("Đã thêm sinh viên: ", {
+        idsv: res.insertId,
+        ...sinhVienMoi,
+      });
       result(null, { idsv: res.insertId, ...sinhVienMoi });
     }
   );
@@ -60,7 +63,7 @@ SinhVien.Them = (sinhVienMoi, result) => {
 SinhVien.Sua = (idsv, sinhVien, result) => {
   sql.query(
     "UPDATE sinhvien SET tenSV = ?, ngaySinh = ?, laNam = ?, kyTucXa = ?, queQuan = ?, diaChi = ?, sdt = ?, cccd = ?, " +
-    "tenBo = ?, namSinhBo = ?, ngheNghiepBo = ?, sdtBo = ?, tenMe = ?, namSinhMe = ?, ngheNghiepMe = ?, sdtMe = ?, idKhoa = ?, idtk = ? WHERE idsv = ?",
+      "tenBo = ?, namSinhBo = ?, ngheNghiepBo = ?, sdtBo = ?, tenMe = ?, namSinhMe = ?, ngheNghiepMe = ?, sdtMe = ?, idKhoa = ?, idtk = ? WHERE idsv = ?",
     [
       sinhVien.tenSV,
       sinhVien.ngaySinh,
@@ -129,4 +132,80 @@ SinhVien.TimKiem = (tuKhoa, result) => {
     result(null, res);
   });
 };
+
+// SinhVien.XemKTX = (result) => {
+//   let query = "SELECT * FROM sinhvien WHERE kyTucXa = TRUE;";
+//   sql.query(query, (err, res) => {
+//     if (err) {
+//       console.log("error: ", err);
+//       result(null, err);
+//       return;
+//     }
+//     if (res.length) {
+//       console.log("Sinh viên hiện ở trong ktx: ", res);
+//       result(null, res);
+//     }
+//     result({ kind: "not_found" }, null);
+//   });
+// };
+
+// SinhVien.XemHocPhan = (idsv, kyHoc, result) => {
+//   sql.query(
+//     `SELECT dkyhocphan.* FROM dkyhocphan INNER JOIN lophocphan ON dkyhocphan.idLop = lophocphan.idLop WHERE dkyhocphan.kyHoc = ${kyHoc} AND dkyhocphan.idsv = ${idsv};`,
+//     (err, res) => {
+//       if (err) {
+//         console.log("error: ", err);
+//         result(err, null);
+//         return;
+//       }
+//       if (res.length) {
+//         console.log("Xem lịch thi: ", res);
+//         result(null, res);
+//         return;
+//       }
+//       result({ kind: "not_found" }, null);
+//     }
+//   );
+// };
+
+// SinhVien.DangKyHocPhan = (idsv, idLop, kyHoc, result) => {
+//   sql.query(
+//     "INSERT INTO dkyhocphan SET kyHoc = ?, idLop = ?, idsv = ?",
+//     [kyHoc, idLop, idsv],
+//     (err, res) => {
+//       if (err) {
+//         console.log("error: ", err);
+//         result(err, null);
+//         return;
+//       }
+//       console.log("Đã đăng ký học phần", {
+//         idsv: idsv,
+//         idLop: idLop,
+//         kyHoc: kyHoc,
+//       });
+//       result(null, { idsv: idsv, idLop: idLop, kyHoc: kyHoc });
+//     }
+//   );
+// };
+
+// SinhVien.HuyDangKy = (idLop, idsv, result) => {
+//   sql.query(
+//     `DELETE FROM dkyhocphan WHERE (idLop = ?) and (idsv = ?);`,
+//     [idLop, idsv],
+//     (err, res) => {
+//       if (err) {
+//         console.log("error: ", err);
+//         result(null, err);
+//         return;
+//       }
+//       if (res.affectedRows == 0) {
+//         result({ kind: "not_found" }, null);
+//         return;
+//       }
+//       console.log("Đã hủy học phần.");
+//       result(null, res);
+//     }
+//   );
+// };
+
 module.exports = SinhVien;

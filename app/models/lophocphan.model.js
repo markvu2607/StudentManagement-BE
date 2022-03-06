@@ -110,4 +110,5 @@ LopHocPhan.TimKiem = (tenLop, result) => {
     result(null, res);
   });
 };
+
 module.exports = LopHocPhan;
