@@ -25,11 +25,11 @@ exports.Sua = (req, res) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Không tìm thấy chương trình đào tạo id ${req.params.idctdt}.`,
+          message: "Không tìm thấy chương trình đào tạo.",
         });
       } else {
         res.status(500).send({
-          message: "Lỗi cập nhật chương trình đào tạo id " + req.params.idctdt,
+          message: err.message || "Lỗi cập nhật chương trình đào tạo id.",
         });
       }
     } else res.send(data);
@@ -41,11 +41,11 @@ exports.Xem = (req, res) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Không tìm thấy chương trình đào tạo id ${req.params.idctdt}.`,
+          message: "Không tìm thấy chương trình đào tạo.",
         });
       } else {
         res.status(500).send({
-          message: "Lỗi khi tìm chương trình đào tạo id " + req.params.idctdt,
+          message: err.message || "Lỗi khi tìm chương trình đào tạo.",
         });
       }
     } else res.send(data);
@@ -58,11 +58,11 @@ exports.TimKiem = (req, res) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Không tìm thấy chương trình đào tạo ${tenctdt}.`,
+          message: "Không tìm thấy chương trình đào tạo.",
         });
       } else {
         res.status(500).send({
-          message: "Lỗi khi tìm chương trình đào tạo " + tenctdt,
+          message: err.message || "Lỗi khi tìm chương trình đào tạo.",
         });
       }
     } else res.send(data);
@@ -74,12 +74,12 @@ exports.XemChiTiet = (req, res) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `không tìm thấy chi tiết chương trình đào tạo ${req.params.idctdt}.`,
+          message: "Không tìm thấy chi tiết chương trình đào tạo.",
         });
       } else {
         res.status(500).send({
           message:
-            "Lỗi khi tìm chi tiết chương trình đào tạo id " + req.params.idctdt,
+            err.message || "Lỗi khi tìm chi tiết chương trình đào tạo id.",
         });
       }
     } else res.send(data);
@@ -89,42 +89,40 @@ exports.XemChiTiet = (req, res) => {
 exports.ThemChiTiet = (req, res) => {
   if (!req.body.idctdt || !req.body.idmh) {
     res.status(400).send({
-      message: "Nội dung trống 1!",
+      message: "Nội dung trống!",
     });
   } else
     CtDaoTao.ThemChiTiet(req.body.idctdt, req.body.idmh, (err, data) => {
       if (err)
         res.status(500).send({
           message:
-            err.message ||
-            `Có lỗi khi thêm môn học idmh ${idmh} vào chương trình đào tạo idctdt ${idctdt}`,
+            err.message || "Có lỗi khi thêm môn học vào chương trình đào tạo.",
         });
       else res.send(data);
     });
 };
 
 exports.XoaChiTiet = (req, res) => {
-  if (!req.body.idctdt || !req.body.idmh) {
+  if (!req.params.idctdt || !req.body.idmh) {
     res.status(400).send({
-      message: "Nội dung trống 1!",
+      message: "Nội dung trống!",
     });
   } else {
-    let idmh = req.body.idmh;
-    let idctdt = req.body.idctdt;
-    CtDaoTao.XoaChiTiet(req.body.idctdt, req.body.idmh, (err, data) => {
+    CtDaoTao.XoaChiTiet(req.params.idctdt, req.body.idmh, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `không tìm thấy môn học idmh ${idmh} trong chương trình đào tạo idctdt ${idctdt}`,
+            message: "Không tìm thấy môn học trong chương trình đào tạo",
           });
         } else {
           res.status(500).send({
-            message: `Không thể xóa môn học idmh ${idmh} khỏi chương trình đào tạo idctdt ${idctdt}`,
+            message:
+              err.message || "Không thể xóa môn học khỏi chương trình đào tạo",
           });
         }
       } else
         res.send({
-          message: `Đã xóa môn học idmh ${idmh} khỏi chương trình đào tạo idctdt ${idctdt}`,
+          message: "Đã xóa môn học khỏi chương trình đào tạo",
         });
     });
   }

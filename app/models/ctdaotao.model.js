@@ -1,7 +1,6 @@
 const sql = require("./db.js");
 
 const CtDaoTao = function (idctdt, ctDaoTao) {
-  if (idctdt) this.idctdt = idctdt;
   this.tenctdt = ctDaoTao.tenctdt;
   this.moTa = ctDaoTao.moTa;
   this.idKhoa = ctDaoTao.idKhoa;
@@ -17,7 +16,7 @@ CtDaoTao.Them = (ctDaoTaoMoi, result) => {
         result(err, null);
         return;
       }
-      let ctdt = new CtDaoTao(res.insertId, ctDaoTaoMoi);
+      let ctdt = { idctdt: res.insertId, ...ctDaoTaoMoi };
       console.log("Đã thêm chương trình đào tạo: ", ctdt);
       result(null, ctdt);
     }
@@ -38,7 +37,7 @@ CtDaoTao.Sua = (idctdt, ctDaoTao, result) => {
         result({ kind: "not_found" }, null);
         return;
       }
-      let ctdt = new CtDaoTao(idctdt, ctDaoTao);
+      let ctdt = { idctdt: idctdt, ...ctDaoTao };
       console.log("Đã cập nhật chương trình đào tạo: ", ctdt);
       result(null, ctdt);
     }
@@ -53,7 +52,7 @@ CtDaoTao.Xem = (idctdt, result) => {
       return;
     }
     if (res.length) {
-      let ctdt = new CtDaoTao(idctdt, res[0]);
+      let ctdt = { idctdt: idctdt, ...res[0] };
       console.log("Xem chương trình đào tạo: ", ctdt);
       result(null, ctdt);
       return;
@@ -108,15 +107,18 @@ CtDaoTao.ThemChiTiet = (idctdt, idmh, result) => {
         result(err, null);
         return;
       }
-      console.log(`Đã thêm môn học idmh ${idmh} vào chương trình đào tạo idctdt ${idctdt}`);
-      result(null, {idctdt, idmh});
+      console.log(
+        `Đã thêm môn học idmh ${idmh} vào chương trình đào tạo idctdt ${idctdt}`
+      );
+      result(null, { idctdt: idctdt, idmh: idmh });
     }
   );
 };
 
 CtDaoTao.XoaChiTiet = (idctdt, idmh, result) => {
   sql.query(
-    `DELETE FROM ctchuongtrinh WHERE (idctdt = ?) and (idmh = ?);`, [idctdt, idmh],
+    `DELETE FROM ctchuongtrinh WHERE (idctdt = ?) and (idmh = ?);`,
+    [idctdt, idmh],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -127,9 +129,8 @@ CtDaoTao.XoaChiTiet = (idctdt, idmh, result) => {
         result({ kind: "not_found" }, null);
         return;
       }
-      let resp = `Đã xóa môn học idmh ${idmh} khỏi chương trình đào tạo idctdt ${idctdt}`;
-      console.log(resp);
-      result(null, resp);
+      console.log("Đã xóa môn học khỏi chương trình đào tạo.");
+      result(null, res);
     }
   );
 };
