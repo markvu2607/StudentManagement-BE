@@ -20,6 +20,7 @@ require("./app/routes/bangtin.routes.js")(app);
 require("./app/routes/monhoc.routes.js")(app);
 require("./app/routes/lophocphan.routes.js")(app);
 require("./app/routes/diemdanh.routes.js")(app);
+require("./app/routes/diemrenluyen.routes.js")(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
