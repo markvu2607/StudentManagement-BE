@@ -105,3 +105,14 @@ exports.TimKiem = (req, res) => {
     } else res.send(data);
   });
 };
+
+exports.ThongKeKTX = (req, res) => {
+  SinhVien.ThongKeKTX((err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Lỗi khi thống kê sinh viên ở trong ký túc xá."
+      });
+    else res.send(data);
+  });
+};

@@ -4,6 +4,7 @@ module.exports = (app) => {
   router.post("/", sinhVien.Them);
   router.put("/:idsv", sinhVien.Sua);
   router.get("/", sinhVien.TimKiem);
+  router.get("/kytucxa", sinhVien.ThongKeKTX);
   router.get("/:idsv", sinhVien.Xem);
   app.use("/api/sinhvien", router);
 };

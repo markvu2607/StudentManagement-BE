@@ -133,21 +133,21 @@ SinhVien.TimKiem = (tuKhoa, result) => {
   });
 };
 
-// SinhVien.XemKTX = (result) => {
-//   let query = "SELECT * FROM sinhvien WHERE kyTucXa = TRUE;";
-//   sql.query(query, (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(null, err);
-//       return;
-//     }
-//     if (res.length) {
-//       console.log("Sinh viên hiện ở trong ktx: ", res);
-//       result(null, res);
-//     }
-//     result({ kind: "not_found" }, null);
-//   });
-// };
+SinhVien.ThongKeKTX = (result) => {
+  let query = "SELECT * FROM sinhvien WHERE kyTucXa = TRUE;";
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    if (res.length) {
+      console.log("Sinh viên hiện ở trong ktx: ", res);
+      result(null, res);
+    }
+    result({ kind: "not_found" }, null);
+  });
+};
 
 // SinhVien.XemHocPhan = (idsv, kyHoc, result) => {
 //   sql.query(
