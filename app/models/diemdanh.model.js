@@ -1,21 +1,15 @@
 const sql = require("./db.js");
 
 const DiemDanh = function (diemDanh) {
+  if (diemDanh.idDiemDanh) this.idDiemDanh = diemDanh.idDiemDanh;
   this.thoiGianBd = diemDanh.thoiGianBd;
   this.thoiGianKt = diemDanh.thoiGianKt;
   this.idLop = diemDanh.idLop;
 };
 
-// const CtDiemDanh = function (ctDiemDanh) {
-//   this.thoiGianDd = ctDiemDanh.thoiGianDd;
-//   this.trangThai = ctDiemDanh.trangThai;
-//   this.idDiemDanh = ctDiemDanh.idDiemDanh;
-//   this.idsv = ctDiemDanh.idsv;
-// };
-
 DiemDanh.Them = (diemDanhMoi, result) => {
   sql.query(
-    "INSERT INTO diemdanh SET thoiGianBd = ?, thoiGianKt = ?, idLop = ?;",
+    "CALL SP_GvTaoDiemDanh(?, ?, ?);",
     [diemDanhMoi.thoiGianBd, diemDanhMoi.thoiGianKt, diemDanhMoi.idLop],
     (err, res) => {
       if (err) {
@@ -23,11 +17,8 @@ DiemDanh.Them = (diemDanhMoi, result) => {
         result(err, null);
         return;
       }
-      console.log("Đã tạo điểm danh: ", {
-        idDiemDanh: res.insertId,
-        ...diemDanhMoi,
-      });
-      result(null, { idDiemDanh: res.insertId, ...diemDanhMoi });
+      console.log("Đã tạo điểm danh: ", res[0]);
+      result(null, res[0]);
     }
   );
 };
@@ -89,41 +80,20 @@ DiemDanh.XemDanhSach = (idLop, result) => {
   });
 };
 
-// DiemDanh.SvXemDiemDanh = (idLop, result) => {
-//   sql.query(`SELECT * FROM ctdiemdanh WHERE idDiemDanh = ${idLop}`, (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(err, null);
-//       return;
-//     }
-//     if (res.length) {
-//       console.log("Sinh viên xem điểm danh theo lớp: ", res);
-//       result(null, res[0]);
-//       return;
-//     }
-//     result({ kind: "not_found" }, null);
-//   });
-// };
-
-// DiemDanh.SvDiemDanh = (CtDiemDanh, result) => {
-//   sql.query(
-//     "INSERT INTO ctdiemdanh SET trangThai = ?, thoiGianDd = ?, idsv = ?, idDiemDanh = ?;",
-//     [
-//       CtDiemDanh.trangThai,
-//       CtDiemDanh.thoiGianDd,
-//       CtDiemDanh.idsv,
-//       CtDiemDanh.idDiemDanh,
-//     ],
-//     (err, res) => {
-//       if (err) {
-//         console.log("error: ", err);
-//         result(err, null);
-//         return;
-//       }
-//       console.log("Đã thêm chi tiết điểm danh: ", { CtDiemDanh });
-//       result(null, { CtDiemDanh });
-//     }
-//   );
-// };
+DiemDanh.SvDiemDanh = (idsv, idDiemDanh, result) => {
+  sql.query(
+    "CALL SP_SvDiemDanh(?, ?);",
+    [idsv, idDiemDanh],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      console.log("Sinh viên điểm danh: ", res[0]);
+      result(null, res[0]);
+    }
+  );
+};
 
 module.exports = DiemDanh;

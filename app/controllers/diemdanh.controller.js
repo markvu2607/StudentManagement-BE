@@ -77,38 +77,21 @@ exports.XemDanhSach = (req, res) => {
       }
     } else res.send(data);
   });
+};  
+
+exports.SvDiemDanh = (req, res) => {
+  console.log(1);
+  if (!req.params.idsv || !req.body.idDiemDanh) {
+    res.status(400).send({
+      message: "Nội dung trống!",
+    });
+  } else
+    DiemDanh.SvDiemDanh(req.params.idsv, req.body.idDiemDanh, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Có lỗi khi điểm danh sinh viên",
+        });
+      else res.send(data);
+    });
 };
-
-// exports.SvXemDiemDanh = (req, res) => {
-//   if (!req.params.idctdt || !req.body.idmh)
-//     CtDaoTao.XemChiTiet(req.params.idctdt, (err, data) => {
-//       if (err) {
-//         if (err.kind === "not_found") {
-//           res.status(404).send({
-//             message: "Không tìm thấy chi tiết chương trình đào tạo.",
-//           });
-//         } else {
-//           res.status(500).send({
-//             message:
-//               err.message || "Lỗi khi tìm chi tiết chương trình đào tạo id.",
-//           });
-//         }
-//       } else res.send(data);
-//     });
-// };
-
-// exports.SvDiemDanh = (req, res) => {
-//   if (!req.body.idctdt || !req.body.idmh) {
-//     res.status(400).send({
-//       message: "Nội dung trống!",
-//     });
-//   } else
-//     CtDaoTao.ThemChiTiet(req.body.idctdt, req.body.idmh, (err, data) => {
-//       if (err)
-//         res.status(500).send({
-//           message:
-//             err.message || "Có lỗi khi thêm môn học vào chương trình đào tạo.",
-//         });
-//       else res.send(data);
-//     });
-// };
