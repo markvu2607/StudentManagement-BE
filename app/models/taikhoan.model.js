@@ -74,4 +74,19 @@ TaiKhoan.Khoa = (idtk, result) => {
   );
 };
 
+TaiKhoan.search = (keyword, result) => {
+  let query = "SELECT * FROM taikhoan";
+  if (keyword) {
+    query += ` WHERE tenDangNhap LIKE '%${keyword}%' OR idsv LIKE '%${keyword}%'`;
+  }
+  queryDB(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    result(null, res);
+  });
+}
+
 export default TaiKhoan;

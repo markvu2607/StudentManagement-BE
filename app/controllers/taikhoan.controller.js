@@ -77,6 +77,22 @@ const TaiKhoanController = {
           message: `Khóa tài khoản thành công tài khoản ${req.params.idtk}!`,
         });
     });
+  },
+  search: (req, res) => {
+    const keyword = req.params.keyword
+    TaiKhoan.search(keyword, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Không tìm thấy tai khoan với từ khóa ${keyword}.`,
+          });
+        } else {
+          res.status(500).send({
+            message: "Lỗi khi tìm tai khoan với từ khóa " + keyword,
+          });
+        }
+      } else res.send(data);
+    })
   }
 }
 
