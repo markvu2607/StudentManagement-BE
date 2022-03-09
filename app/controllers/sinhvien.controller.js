@@ -89,6 +89,22 @@ exports.Xem = (req, res) => {
   });
 };
 
+exports.XemTheoLop = (req, res) => {
+  SinhVien.XemTheoLop(req.params.idLop, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Không tìm thấy.`,
+        });
+      } else {
+        res.status(500).send({
+          message: res.message || "Lỗi tìm sinh viên",
+        });
+      }
+    } else res.send(data);
+  });
+};
+
 exports.TimKiem = (req, res) => {
   const tuKhoa = req.query.tuKhoa;
   SinhVien.TimKiem(tuKhoa, (err, data) => {

@@ -149,6 +149,38 @@ SinhVien.ThongKeKTX = (result) => {
   });
 };
 
+SinhVien.ThongKeKTX = (result) => {
+  let query = "SELECT * FROM sinhvien WHERE kyTucXa = TRUE;";
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    if (res.length) {
+      console.log("Sinh viên hiện ở trong ktx: ", res);
+      result(null, res);
+    }
+    result({ kind: "not_found" }, null);
+  });
+};
+
+// SinhVien.ThongKeHocBong = (result) => {
+//   let query = "SELECT * FROM sinhvien WHERE kyTucXa = TRUE;";
+//   sql.query(query, (err, res) => {
+//     if (err) {
+//       console.log("error: ", err);
+//       result(null, err);
+//       return;
+//     }
+//     if (res.length) {
+//       console.log("Sinh viên hiện ở trong ktx: ", res);
+//       result(null, res);
+//     }
+//     result({ kind: "not_found" }, null);
+//   });
+// };
+
 // SinhVien.XemHocPhan = (idsv, kyHoc, result) => {
 //   sql.query(
 //     `SELECT dkyhocphan.* FROM dkyhocphan INNER JOIN lophocphan ON dkyhocphan.idLop = lophocphan.idLop WHERE dkyhocphan.kyHoc = ${kyHoc} AND dkyhocphan.idsv = ${idsv};`,
