@@ -117,6 +117,22 @@ SinhVien.Xem = (idsv, result) => {
   });
 };
 
+SinhVien.XemTheoLop = (idLop, result) => {
+  sql.query(`SELECT * FROM sinhvien WHERE idsv = ${idLop}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if (res.length) {
+      console.log("Xem sinh viên theo lớp học phần: ", res);
+      result(null, res);
+      return;
+    }
+    result({ kind: "not_found" }, null);
+  });
+};
+
 SinhVien.TimKiem = (tuKhoa, result) => {
   let query = "SELECT * FROM sinhvien";
   if (tuKhoa) {

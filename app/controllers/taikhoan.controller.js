@@ -61,6 +61,22 @@ exports.Sua = (req, res) => {
   }
 };
 
+exports.Xem = (req, res) => {
+  SinhVien.Xem(req.params.idtk, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Không tìm thấy tài khoản id ${req.params.idtk}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: res.message || "Lỗi tìm tài khoản id " + req.params.idtk,
+        });
+      }
+    } else res.send(data);
+  });
+};
+
 exports.Khoa = (req, res) => {
   TaiKhoan.Khoa(req.params.idtk, (err, data) => {
     if (err) {
