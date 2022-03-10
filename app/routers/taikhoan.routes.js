@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.post("/", taiKhoanController.Them)
 router.put("/:idtk", taiKhoanController.Sua);
+router.get("/:idtk", taiKhoanController.Xem);
 router.delete("/:idtk", taiKhoanController.Khoa);
 router.get("/", taiKhoanController.search)
 

@@ -93,6 +93,21 @@ const TaiKhoanController = {
         }
       } else res.send(data);
     })
+  },
+  Xem: (req, res) => {
+    TaiKhoan.Xem(req.params.idtk, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Không tìm thấy tài khoản id ${req.params.idtk}.`,
+          });
+        } else {
+          res.status(500).send({
+            message: res.message || "Lỗi tìm tài khoản id " + req.params.idtk,
+          });
+        }
+      } else res.send(data);
+    });
   }
 }
 
