@@ -21,7 +21,7 @@ BangTin.Them = (bangTinMoi, result) => {
 };
 
 BangTin.Xem = (result) => {
-  queryDB("SELECT * FROM bangtin", (err, res) => {
+  queryDB("SELECT * FROM bangtin ORDER BY thoiGianTao DESC LIMIT 5", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
