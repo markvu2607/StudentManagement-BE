@@ -9,7 +9,8 @@ const LopController = {
       !req.body.soLuong ||
       !req.body.thoiGianBd ||
       !req.body.thoiGianKt ||
-      req.body.trangThai === ""
+      !req.body.trangThai === "" ||
+      !req.body.idgv
     ) {
       res.status(400).send({
         message: "Nội dung trống!",
@@ -18,7 +19,7 @@ const LopController = {
       Lop.Them(new Lop(req.body), (err, data) => {
         if (err)
           res.status(500).send({
-            message: err.message || "Có lỗi khi tạo tài khoản.",
+            message: req.message || "ERROR",
           });
         else res.send(data);
       });
@@ -31,7 +32,8 @@ const LopController = {
       !req.body.soLuong ||
       !req.body.thoiGianBd ||
       !req.body.thoiGianKt ||
-      !req.body.trangThai === ""
+      !req.body.trangThai === "" ||
+      !req.body.idgv
     ) {
       res.status(400).send({
         message: "Nội dung trống!",
@@ -45,7 +47,7 @@ const LopController = {
             });
           } else {
             res.status(500).send({
-              message: "Lỗi cập nhật lớp id " + req.params.idLop,
+              message: req.message || "ERROR",
             });
           }
         } else res.send(data);
@@ -60,7 +62,7 @@ const LopController = {
           });
         } else {
           res.status(500).send({
-            message: "Lỗi dừng lớp id " + req.params.idLop,
+            message: req.message || "ERROR",
           });
         }
       } else
@@ -78,7 +80,7 @@ const LopController = {
           });
         } else {
           res.status(500).send({
-            message: "Lỗi khi tìm lớp id " + req.params.idLop,
+            message: req.message || "ERROR",
           });
         }
       } else res.send(data);
@@ -94,7 +96,7 @@ const LopController = {
           });
         } else {
           res.status(500).send({
-            message: "Lỗi khi tìm lớp " + tenLop,
+            message: req.message || "ERROR",
           });
         }
       } else res.send(data);
