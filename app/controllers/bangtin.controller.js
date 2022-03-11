@@ -23,6 +23,24 @@ const BangTinController = {
         });
       else res.send(data);
     });
+  },
+  Xoa: (req, res) => {
+    BangTin.Xoa(req.params.idbt, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Không tìm thấy bảng tin ${req.params.idbt}.`,
+          });
+        } else {
+          res.status(500).send({
+            message: res.message || "Không thể xóa bảng tin " + req.params.idbt,
+          });
+        }
+      } else
+        res.send({
+          message: `Xóa thành công bảng tin ${req.params.idbt}!`,
+        });
+    });
   }
 }
 

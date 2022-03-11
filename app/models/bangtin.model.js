@@ -32,4 +32,23 @@ BangTin.Xem = (result) => {
   });
 };
 
+BangTin.Xoa = (idbt, result) => {
+  queryDB(
+    "DELETE FROM bangtin WHERE idbt=?;", idbt,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+      console.log("Đã khóa bảng tin: ", { idbt: idbt });
+      result(null, idbt);
+    }
+  );
+};
+
 export default BangTin
