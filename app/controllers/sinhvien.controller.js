@@ -5,8 +5,8 @@ const SinhVienController = {
     if (
       !req.body.tenSV ||
       !req.body.ngaySinh ||
-      req.body.laNam === "" ||
-      req.body.kyTucXa === "" ||
+      !req.body.laNam === "" ||
+      !req.body.kyTucXa === "" ||
       !req.body.queQuan ||
       !req.body.diaChi ||
       !req.body.sdt ||
@@ -29,7 +29,7 @@ const SinhVienController = {
       SinhVien.Them(new SinhVien({ ...req.body }), (err, data) => {
         if (err)
           res.status(500).send({
-            message: err.message || "Có lỗi khi tạo tài khoản.",
+            message: err.message || "ERROR",
           });
         else res.send(data);
       });
@@ -39,8 +39,8 @@ const SinhVienController = {
     if (
       !req.body.tenSV ||
       !req.body.ngaySinh ||
-      req.body.laNam === "" ||
-      req.body.kyTucXa === "" ||
+      !req.body.laNam === "" ||
+      !req.body.kyTucXa === "" ||
       !req.body.queQuan ||
       !req.body.diaChi ||
       !req.body.sdt ||
@@ -68,7 +68,7 @@ const SinhVienController = {
             });
           } else {
             res.status(500).send({
-              message: "Lỗi cập nhật sinh viên id " + req.params.idsv,
+              message: err.message || "ERROR",
             });
           }
         } else res.send(data);
@@ -83,7 +83,7 @@ const SinhVienController = {
           });
         } else {
           res.status(500).send({
-            message: "Lỗi tìm sinh viên id " + req.params.idsv,
+            message: err.message || "ERROR",
           });
         }
       } else res.send(data);
@@ -100,7 +100,7 @@ const SinhVienController = {
           });
         } else {
           res.status(500).send({
-            message: "Lỗi khi tìm sinh viên với từ khóa " + tuKhoa,
+            message: err.message || "ERROR",
           });
         }
       } else res.send(data);

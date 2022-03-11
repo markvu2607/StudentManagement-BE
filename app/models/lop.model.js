@@ -9,11 +9,12 @@ const Lop = function (lop) {
   this.thoiGianKt = lop.thoiGianKt;
   this.trangThai = lop.trangThai;
   this.idgv = lop.idgv;
+  this.idky = lop.idky;
 };
 
 Lop.Them = (lopMoi, result) => {
   queryDB(
-    "INSERT INTO lophocphan SET idmh = ?, tenLop = ?, phongHoc = ?, soLuong = ?, thoiGianBd = ?, thoiGianKt = ?, trangThai = ?, idgv = ?",
+    "INSERT INTO lophocphan SET idmh = ?, tenLop = ?, phongHoc = ?, soLuong = ?, thoiGianBd = ?, thoiGianKt = ?, trangThai = ?, idgv = ?, idky = ?",
     [
       lopMoi.idmh,
       lopMoi.tenLop,
@@ -23,6 +24,7 @@ Lop.Them = (lopMoi, result) => {
       lopMoi.thoiGianKt,
       lopMoi.trangThai,
       lopMoi.idgv,
+      lopMoi.idky,
     ],
     (err, res) => {
       if (err) {
@@ -38,7 +40,7 @@ Lop.Them = (lopMoi, result) => {
 
 Lop.Sua = (idLop, lop, result) => {
   queryDB(
-    "UPDATE lophocphan SET idmh = ?, tenLop = ?, phongHoc = ?, soLuong = ?, thoiGianBd = ?, thoiGianKt = ?, trangThai = ?, idgv = ? WHERE idLop = ?",
+    "UPDATE lophocphan SET idmh = ?, tenLop = ?, phongHoc = ?, soLuong = ?, thoiGianBd = ?, thoiGianKt = ?, trangThai = ?, idgv = ? WHERE idLop = ?, idky = ?",
     [
       lop.idmh,
       lop.tenLop,
@@ -48,6 +50,7 @@ Lop.Sua = (idLop, lop, result) => {
       lop.thoiGianKt,
       lop.trangThai,
       lop.idgv,
+      lop.idky,
       idLop,
     ],
     (err, res) => {
