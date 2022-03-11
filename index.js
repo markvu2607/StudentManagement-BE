@@ -30,7 +30,7 @@ app.use('/api/taikhoan', taiKhoanRoutes)
 app.use('/api/sinhvien', sinhVienRoutes)
 app.use("/api/khoa", khoaRoutes);
 app.use("/api/ctdaotao", ctDaoTaoRoutes);
-// app.use("/api/bangtin", bangTinRoutes);
+app.use("/api/bangtin", bangTinRoutes);
 app.use("/api/monhoc", monHocRoutes);
 app.use("/api/lop", lopRoutes);
 

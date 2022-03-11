@@ -10,7 +10,7 @@ const BangTinController = {
       BangTin.Them(new BangTin(req.body), (err, data) => {
         if (err)
           res.status(500).send({
-            message: err.message || "Có lỗi khi thêm bản tin.",
+            message: req.message || "ERROR",
           });
         else res.send(data);
       });
@@ -19,7 +19,7 @@ const BangTinController = {
     BangTin.Xem((err, data) => {
       if (err)
         res.status(500).send({
-          message: err.message || "Có lỗi khi xem bản tin",
+          message: req.message || "ERROR",
         });
       else res.send(data);
     });

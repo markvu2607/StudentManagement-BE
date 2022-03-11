@@ -2,12 +2,11 @@ import { queryDB } from "../../database.js";
 
 const BangTin = function (bangTin) {
   this.noiDung = bangTin.noiDung;
-  this.thoiGianTao = new Date();
 };
 
 BangTin.Them = (bangTinMoi, result) => {
   queryDB(
-    "INSERT INTO bangtin SET noiDung = ?, thoiGianTao = ?",
+    "INSERT INTO bangtin SET noiDung = ?",
     [bangTinMoi.noiDung, bangTinMoi.thoiGianTao],
     (err, res) => {
       if (err) {
@@ -15,7 +14,7 @@ BangTin.Them = (bangTinMoi, result) => {
         result(err, null);
         return;
       }
-      console.log("Đã tạo tài khoản: ", { idbt: res.insertId, ...bangTinMoi });
+      console.log("Đã tạo bản tin: ", { idbt: res.insertId, ...bangTinMoi });
       result(null, { idbt: res.insertId, ...bangTinMoi });
     }
   );
