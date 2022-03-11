@@ -4,7 +4,6 @@ const MonHocController = {
   Them: (req, res) => {
     if (
       !req.body.tenMon ||
-      !req.body.tlMonHoc ||
       !req.body.soTinChi ||
       !req.body.tienHoc
     ) {
@@ -23,7 +22,6 @@ const MonHocController = {
   Sua: (req, res) => {
     if (
       !req.body.tenMon ||
-      !req.body.tlMonHoc ||
       !req.body.soTinChi ||
       !req.body.tienHoc
     ) {
@@ -61,7 +59,7 @@ const MonHocController = {
     });
   },
   TimKiem: (req, res) => {
-    const tenMon = req.query.tenMon;
+    const tenMon = req.query.tukhoa;
     MonHoc.TimKiem(tenMon, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {

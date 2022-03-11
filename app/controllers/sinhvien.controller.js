@@ -90,7 +90,8 @@ const SinhVienController = {
     });
   },
   TimKiem: (req, res) => {
-    const tuKhoa = req.query.tuKhoa;
+    const tuKhoa = req.query.tukhoa;
+    console.log(tuKhoa)
     SinhVien.TimKiem(tuKhoa, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {

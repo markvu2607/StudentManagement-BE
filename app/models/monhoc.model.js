@@ -3,17 +3,15 @@ import { queryDB } from "../../database.js";
 
 const MonHoc = function (monHoc) {
   this.tenMon = monHoc.tenMon;
-  this.tlMonHoc = monHoc.tlMonHoc;
   this.soTinChi = monHoc.soTinChi;
   this.tienHoc = monHoc.tienHoc;
 };
 
 MonHoc.Them = (monHocMoi, result) => {
   queryDB(
-    "INSERT INTO monhoc SET tenMon = ?, tlMonHoc = ?, soTinChi = ?, tienHoc = ?",
+    "INSERT INTO monhoc SET tenMon = ?, soTinChi = ?, tienHoc = ?",
     [
       monHocMoi.tenMon,
-      monHocMoi.tlMonHoc,
       monHocMoi.soTinChi,
       monHocMoi.tienHoc,
     ],
@@ -31,8 +29,8 @@ MonHoc.Them = (monHocMoi, result) => {
 
 MonHoc.Sua = (idmh, monHoc, result) => {
   queryDB(
-    "UPDATE monhoc SET tenMon = ?, tlMonHoc = ?, soTinChi = ?, tienHoc = ? WHERE idmh = ?",
-    [monHoc.tenMon, monHoc.tlMonHoc, monHoc.soTinChi, monHoc.tienHoc, idmh],
+    "UPDATE monhoc SET tenMon = ?, soTinChi = ?, tienHoc = ? WHERE idmh = ?",
+    [monHoc.tenMon, monHoc.soTinChi, monHoc.tienHoc, idmh],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -68,7 +66,7 @@ MonHoc.Xem = (idmh, result) => {
 MonHoc.TimKiem = (tenMon, result) => {
   let query = "SELECT * FROM monhoc";
   if (tenMon) {
-    query += ` WHERE tenmh LIKE '%${tenMon}%'`;
+    query += ` WHERE tenMon LIKE '%${tenMon}%'`;
   }
   queryDB(query, (err, res) => {
     if (err) {
