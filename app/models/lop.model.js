@@ -109,7 +109,7 @@ Lop.TimKiem = (idky, tenLop, result) => {
   let query = `SELECT lophocphan.*, monhoc.tenMon, giangvien.tengv, kyHoc.tenKyHoc
   FROM lophocphan INNER JOIN kyHoc ON lophocphan.idky = kyHoc.idky
   INNER JOIN giangvien ON lophocphan.idgv = giangvien.idgv
-  INNER JOIN monhoc ON monhoc.idmh = monhoc.idmh`;
+  INNER JOIN monhoc ON lophocphan.idmh = monhoc.idmh`;
   if (idky || tenLop) {
     query += ` WHERE idky LIKE '%${idky}%' AND tenLop LIKE '%${tenLop}%'`;
   }
