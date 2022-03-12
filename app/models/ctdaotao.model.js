@@ -2,13 +2,12 @@ import { queryDB } from "../../database.js";
 
 const CtDaoTao = function (ctDaoTao) {
   this.tenctdt = ctDaoTao.tenctdt;
-  this.moTa = ctDaoTao.moTa;
   this.idKhoa = ctDaoTao.idKhoa;
 };
 
 CtDaoTao.Them = (ctDaoTaoMoi, result) => {
   queryDB(
-    "INSERT INTO ctdaotao SET tenctdt = ?, moTa = ?, idKhoa = ?",
+    "INSERT INTO ctdaotao SET tenctdt = ?, idKhoa = ?",
     [ctDaoTaoMoi.tenctdt, ctDaoTaoMoi.moTa, ctDaoTaoMoi.idKhoa],
     (err, res) => {
       if (err) {
@@ -27,7 +26,7 @@ CtDaoTao.Them = (ctDaoTaoMoi, result) => {
 
 CtDaoTao.Sua = (idctdt, ctDaoTao, result) => {
   queryDB(
-    "UPDATE ctdaotao SET tenctdt = ?, moTa = ?, idKhoa = ? WHERE idctdt = ?",
+    "UPDATE ctdaotao SET tenctdt = ?, idKhoa = ? WHERE idctdt = ?",
     [ctDaoTao.tenctdt, ctDaoTao.moTa, ctDaoTao.idKhoa, idctdt],
     (err, res) => {
       if (err) {
@@ -64,10 +63,10 @@ CtDaoTao.Xem = (idctdt, result) => {
   });
 };
 
-CtDaoTao.TimKiem = (tenctdt, result) => {
+CtDaoTao.TimKiem = (idKhoa, tenctdt, result) => {
   let query = "SELECT * FROM ctdaotao";
-  if (tenctdt) {
-    query += ` WHERE tenctdt LIKE '%${tenctdt}%'`;
+  if (tenctdt || idKhoa) {
+    query += ` WHERE idKhoa LIKE '%${idKhoa}%' AND tenctdt LIKE '%${tenctdt}%'`;
   }
   queryDB(query, (err, res) => {
     if (err) {
@@ -80,4 +79,60 @@ CtDaoTao.TimKiem = (tenctdt, result) => {
   });
 };
 
+CtDaoTao.XemChiTiet = (idctdt, result) => {
+  queryDB(
+    `SELECT monhoc.* FROM ctchuongtrinh INNER JOIN monhoc ON ctchuongtrinh.idmh = monhoc.idmh WHERE ctchuongtrinh.idctdt = ${idctdt};`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      if (res.length) {
+        console.log("Xem chi tiết chương trình đào tạo: ", res);
+        result(null, res);
+        return;
+      }
+      result({ kind: "not_found" }, null);
+    }
+  );
+};
+
+CtDaoTao.ThemChiTiet = (idctdt, idmh, result) => {
+  queryDB(
+    "INSERT INTO ctchuongtrinh SET idctdt = ?, idmh = ?",
+    [idctdt, idmh],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      console.log(
+        `Đã thêm môn học idmh ${idmh} vào chương trình đào tạo idctdt ${idctdt}`
+      );
+      result(null, { idctdt: idctdt, idmh: idmh });
+    }
+  );
+};
+
+CtDaoTao.XoaChiTiet = (idctdt, idmh, result) => {
+  queryDB(
+    `DELETE FROM ctchuongtrinh WHERE (idctdt = ?) and (idmh = ?);`,
+    [idctdt, idmh],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+      console.log("Đã xóa môn học khỏi chương trình đào tạo.");
+      result(null, res);
+    }
+  );
+};
 export default CtDaoTao;
