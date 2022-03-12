@@ -112,6 +112,7 @@ const SinhVienController = {
   },
   ThongKeKTX: (req, res) => {
     SinhVien.ThongKeKTX((err, data) => {
+      console.log(err);
       if (err)
         res.status(500).send({
           message:
@@ -121,14 +122,18 @@ const SinhVienController = {
     });
   },
   ThongKeHocBong: (req, res) => {
-    SinhVien.ThongKeKTX(req.query.idKhoa,req.query.idky,req.query.gioiHan,(err, data) => {
-      if (err)
-        res.status(500).send({
-          message:
-            err.message || "Lỗi khi thống kê sinh viên có học bổng.",
-        });
-      else res.send(data);
-    });
+    SinhVien.ThongKeHocBong(
+      req.query.idKhoa,
+      req.query.idky,
+      req.query.gioiHan,
+      (err, data) => {
+        if (err)
+          res.status(500).send({
+            message: err.message || "Lỗi khi thống kê sinh viên có học bổng.",
+          });
+        else res.send(data);
+      }
+    );
   },
 };
 export default SinhVienController;

@@ -153,24 +153,23 @@ SinhVien.TimKiem = (tuKhoa, result) => {
 // };
 
 SinhVien.ThongKeKTX = (result) => {
-  let query = "SELECT * FROM sinhvien WHERE kyTucXa = TRUE;";
-  sql.query(query, (err, res) => {
+  queryDB("SELECT * FROM sinhvien WHERE kyTucXa = TRUE;", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
       return;
     }
-    if (res.length) {
+    else if (res.length) {
       console.log("Sinh viên hiện ở trong ktx: ", res);
       result(null, res);
     }
-    result({ kind: "not_found" }, null);
+    else result({ kind: "not_found" }, null);
   });
 };
 
 SinhVien.ThongKeHocBong = (idKhoa, idky, gioiHan, result) => {
-  sql.query(
-    "call sql6476041.SP_ThongKeHocBong(?, ?, ?);",
+  queryDB(
+    "call SP_ThongKeHocBong(?, ?, ?);",
     [idKhoa, idky, gioiHan],
     (err, res) => {
       if (err) {
@@ -178,11 +177,11 @@ SinhVien.ThongKeHocBong = (idKhoa, idky, gioiHan, result) => {
         result(null, err);
         return;
       }
-      if (res.length) {
+      else if (res.length) {
         console.log("Sinh viên có học bổng: ", res);
         result(null, res);
       }
-      result({ kind: "not_found" }, null);
+      else result({ kind: "not_found" }, null);
     }
   );
 };
