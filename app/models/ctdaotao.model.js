@@ -48,7 +48,7 @@ CtDaoTao.Sua = (idctdt, ctDaoTao, result) => {
 };
 
 CtDaoTao.Xem = (idctdt, result) => {
-  queryDB(`SELECT ctdaotao.*, khoa.tenKhoa FROM ctdaotao INNER JOIN khoa ON khoa.idKhoa = ctdaotao.idKhoa WHERE idctdt = ${idctdt}`, (err, res) => {
+  queryDB(`SELECT * FROM ctdaotao WHERE idctdt = ${idctdt}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -64,9 +64,9 @@ CtDaoTao.Xem = (idctdt, result) => {
 };
 
 CtDaoTao.TimKiem = (idKhoa, tenctdt, result) => {
-  let query = "SELECT * FROM ctdaotao";
+  let query = "SELECT ctdaotao.*, khoa.tenKhoa FROM ctdaotao INNER JOIN khoa ON khoa.idKhoa = ctdaotao.idKhoa";
   if (tenctdt || idKhoa) {
-    query += ` WHERE idKhoa LIKE '%${idKhoa}%' AND tenctdt LIKE '%${tenctdt}%'`;
+    query += ` WHERE khoa.idKhoa LIKE '%${idKhoa}%' AND ctdaotao.tenctdt LIKE '%${tenctdt}%'`;
   }
   queryDB(query, (err, res) => {
     if (err) {
