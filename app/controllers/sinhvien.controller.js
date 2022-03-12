@@ -1,4 +1,4 @@
-import SinhVien from "../models/sinhvien.model.js"
+import SinhVien from "../models/sinhvien.model.js";
 
 const SinhVienController = {
   Them: (req, res) => {
@@ -60,19 +60,23 @@ const SinhVienController = {
         message: "Nội dung trống!",
       });
     } else
-      SinhVien.Sua(req.params.idsv, new SinhVien({ ...req.body }), (err, data) => {
-        if (err) {
-          if (err.kind === "not_found") {
-            res.status(404).send({
-              message: `Không tìm thấy sinh viên id ${req.params.idsv}.`,
-            });
-          } else {
-            res.status(500).send({
-              message: err.message || "ERROR",
-            });
-          }
-        } else res.send(data);
-      });
+      SinhVien.Sua(
+        req.params.idsv,
+        new SinhVien({ ...req.body }),
+        (err, data) => {
+          if (err) {
+            if (err.kind === "not_found") {
+              res.status(404).send({
+                message: `Không tìm thấy sinh viên id ${req.params.idsv}.`,
+              });
+            } else {
+              res.status(500).send({
+                message: err.message || "ERROR",
+              });
+            }
+          } else res.send(data);
+        }
+      );
   },
   Xem: (req, res) => {
     SinhVien.Xem(req.params.idsv, (err, data) => {
@@ -91,7 +95,7 @@ const SinhVienController = {
   },
   TimKiem: (req, res) => {
     const tuKhoa = req.query.tukhoa;
-    console.log(tuKhoa)
+    console.log(tuKhoa);
     SinhVien.TimKiem(tuKhoa, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
@@ -105,7 +109,16 @@ const SinhVienController = {
         }
       } else res.send(data);
     });
-  }
-}
-
-export default SinhVienController
+  },
+  ThongKeKTX: (req, res) => {
+    SinhVien.ThongKeKTX((err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Lỗi khi thống kê sinh viên ở trong ký túc xá.",
+        });
+      else res.send(data);
+    });
+  },
+};
+export default SinhVienController;

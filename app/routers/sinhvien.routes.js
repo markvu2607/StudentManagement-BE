@@ -7,5 +7,6 @@ router.post("/", sinhVienController.Them);
 router.put("/:idsv", sinhVienController.Sua);
 router.get("/", sinhVienController.TimKiem);
 router.get("/:idsv", sinhVienController.Xem);
+router.get("/kytucxa", sinhVienController.ThongKeKTX);
 
 export default router
