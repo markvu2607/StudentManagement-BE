@@ -1,6 +1,5 @@
 import { queryDB } from "../../database.js";
 
-
 const SinhVien = function (sinhVien) {
   this.tenSV = sinhVien.tenSV;
   this.ngaySinh = sinhVien.ngaySinh;
@@ -25,7 +24,7 @@ const SinhVien = function (sinhVien) {
 SinhVien.Them = (sinhVienMoi, result) => {
   queryDB(
     "INSERT INTO sinhvien SET tenSV = ?, ngaySinh = ?, laNam = ?, kyTucXa = ?, queQuan = ?, diaChi = ?, sdt = ?, cccd = ?, " +
-    "tenBo = ?, namSinhBo = ?, ngheNghiepBo = ?, sdtBo = ?, tenMe = ?, namSinhMe = ?, ngheNghiepMe = ?, sdtMe = ?, idKhoa = ?, idtk = ?",
+      "tenBo = ?, namSinhBo = ?, ngheNghiepBo = ?, sdtBo = ?, tenMe = ?, namSinhMe = ?, ngheNghiepMe = ?, sdtMe = ?, idKhoa = ?, idtk = ?",
     [
       sinhVienMoi.tenSV,
       sinhVienMoi.ngaySinh,
@@ -52,7 +51,10 @@ SinhVien.Them = (sinhVienMoi, result) => {
         result(err, null);
         return;
       }
-      console.log("Đã thêm sinh viên: ", { idsv: res.insertId, ...sinhVienMoi });
+      console.log("Đã thêm sinh viên: ", {
+        idsv: res.insertId,
+        ...sinhVienMoi,
+      });
       result(null, { idsv: res.insertId, ...sinhVienMoi });
     }
   );
@@ -61,7 +63,7 @@ SinhVien.Them = (sinhVienMoi, result) => {
 SinhVien.Sua = (idsv, sinhVien, result) => {
   queryDB(
     "UPDATE sinhvien SET tenSV = ?, ngaySinh = ?, laNam = ?, kyTucXa = ?, queQuan = ?, diaChi = ?, sdt = ?, cccd = ?, " +
-    "tenBo = ?, namSinhBo = ?, ngheNghiepBo = ?, sdtBo = ?, tenMe = ?, namSinhMe = ?, ngheNghiepMe = ?, sdtMe = ?, idKhoa = ?, idtk = ? WHERE idsv = ?",
+      "tenBo = ?, namSinhBo = ?, ngheNghiepBo = ?, sdtBo = ?, tenMe = ?, namSinhMe = ?, ngheNghiepMe = ?, sdtMe = ?, idKhoa = ?, idtk = ? WHERE idsv = ?",
     [
       sinhVien.tenSV,
       sinhVien.ngaySinh,
@@ -132,7 +134,10 @@ SinhVien.TimKiem = (tuKhoa, result) => {
 };
 
 // SinhVien.XemTheoLop = (idLop, result) => {
-//   queryDB(`SELECT * FROM sinhvien WHERE idsv = ${idLop}`, (err, res) => {
+//   queryDB(`SELECT sinhvien.*
+//   FROM sinhvien
+//   INNER JOIN dkyhocphan ON sinhvien.idsv = dkyhocphan.idsv
+//   INNER JOIN lophocphan ON dkyhocphan.idLop = lophocphan.idLop WHERE idLop = ${idLop}`, (err, res) => {
 //     if (err) {
 //       console.log("error: ", err);
 //       result(err, null);
@@ -161,5 +166,24 @@ SinhVien.ThongKeKTX = (result) => {
     }
     result({ kind: "not_found" }, null);
   });
+};
+
+SinhVien.ThongKeHocBong = (idKhoa, idky, gioiHan, result) => {
+  sql.query(
+    "call sql6476041.SP_ThongKeHocBong(?, ?, ?);",
+    [idKhoa, idky, gioiHan],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.length) {
+        console.log("Sinh viên có học bổng: ", res);
+        result(null, res);
+      }
+      result({ kind: "not_found" }, null);
+    }
+  );
 };
 export default SinhVien;

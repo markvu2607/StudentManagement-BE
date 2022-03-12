@@ -48,7 +48,7 @@ CtDaoTao.Sua = (idctdt, ctDaoTao, result) => {
 };
 
 CtDaoTao.Xem = (idctdt, result) => {
-  queryDB(`SELECT * FROM ctdaotao WHERE idctdt = ${idctdt}`, (err, res) => {
+  queryDB(`SELECT ctdaotao.*, khoa.tenKhoa FROM ctdaotao INNER JOIN khoa ON khoa.idKhoa = ctdaotao.idKhoa WHERE idctdt = ${idctdt}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

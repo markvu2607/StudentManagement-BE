@@ -18,7 +18,7 @@ const DiemRenLuyenController = {
   TimKiem: (req, res) => {
     DiemRenLuyen.TimKiem(
       req.query.idKhoa,
-      req.query.idKhoa,
+      req.query.idky,
       req.query.tensv,
       (err, data) => {
         if (err) {
