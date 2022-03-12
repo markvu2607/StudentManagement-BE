@@ -86,7 +86,11 @@ Lop.Dung = (idLop, result) => {
 };
 
 Lop.Xem = (idLop, result) => {
-  queryDB(`SELECT * FROM lophocphan WHERE idLop = ${idLop}`, (err, res) => {
+  queryDB(`SELECT lophocphan.*, monhoc.tenMon, giangvien.tengv, kyHoc.tenKyHoc
+  FROM lophocphan INNER JOIN kyHoc ON lophocphan.idky = kyHoc.idky
+  INNER JOIN giangvien ON lophocphan.idgv = giangvien.idgv
+  INNER JOIN monhoc ON monhoc.idmh = monhoc.idmh
+  WHERE idLop = ${idLop}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -101,10 +105,13 @@ Lop.Xem = (idLop, result) => {
   });
 };
 
-Lop.TimKiem = (tenLop, result) => {
-  let query = "SELECT * FROM lophocphan";
-  if (tenLop) {
-    query += ` WHERE tenLop LIKE '%${tenLop}%'`;
+Lop.TimKiem = (idky, tenLop, result) => {
+  let query = `SELECT lophocphan.*, monhoc.tenMon, giangvien.tengv, kyHoc.tenKyHoc
+  FROM lophocphan INNER JOIN kyHoc ON lophocphan.idky = kyHoc.idky
+  INNER JOIN giangvien ON lophocphan.idgv = giangvien.idgv
+  INNER JOIN monhoc ON monhoc.idmh = monhoc.idmh`;
+  if (idky || tenLop) {
+    query += ` WHERE idky LIKE '%${idky}%' AND tenLop LIKE '%${tenLop}%'`;
   }
   queryDB(query, (err, res) => {
     if (err) {

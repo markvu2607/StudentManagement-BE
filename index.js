@@ -35,7 +35,7 @@ app.use("/api/khoa", khoaRoutes);
 app.use("/api/ctdaotao", ctDaoTaoRoutes);
 app.use("/api/bangtin", bangTinRoutes);
 app.use("/api/monhoc", monHocRoutes);
-app.use("/api/lop", lopRoutes);
+app.use("/api/lophocphan", lopRoutes);
 app.use("/api/giangvien", giangVienRoutes);
 app.use("/api/kyhoc", kyHocRoutes);
 app.use("/api/diemrenluyen", diemRenLuyenRoutes);

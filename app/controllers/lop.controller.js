@@ -10,7 +10,8 @@ const LopController = {
       !req.body.thoiGianBd ||
       !req.body.thoiGianKt ||
       !req.body.trangThai === "" ||
-      !req.body.idgv
+      !req.body.idgv||
+      !req.body.idky
     ) {
       res.status(400).send({
         message: "Nội dung trống!",
@@ -33,7 +34,8 @@ const LopController = {
       !req.body.thoiGianBd ||
       !req.body.thoiGianKt ||
       !req.body.trangThai === "" ||
-      !req.body.idgv
+      !req.body.idgv ||
+      !req.body.idky
     ) {
       res.status(400).send({
         message: "Nội dung trống!",
@@ -87,12 +89,11 @@ const LopController = {
     });
   },
   TimKiem: (req, res) => {
-    const tenLop = req.query.tenlop;
-    Lop.TimKiem(tenLop, (err, data) => {
+    Lop.TimKiem(req.query.idky, req.query.tenlop, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Không tìm thấy lớp ${tenLop}.`,
+            message: `Không tìm thấy lớp.`,
           });
         } else {
           res.status(500).send({
