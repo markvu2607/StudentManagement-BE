@@ -37,7 +37,7 @@ const MonHocController = {
             });
           } else {
             res.status(500).send({
-              message: "Lỗi cập nhật môn học id " + req.params.idmh,
+              message: err.message || "Lỗi cập nhật môn học id " + req.params.idmh,
             });
           }
         } else res.send(data);
@@ -52,7 +52,7 @@ const MonHocController = {
           });
         } else {
           res.status(500).send({
-            message: "Lỗi khi tìm môn học id " + req.params.idmh,
+            message: err.message || "Lỗi khi tìm môn học id " + req.params.idmh,
           });
         }
       } else res.send(data);
@@ -68,7 +68,7 @@ const MonHocController = {
           });
         } else {
           res.status(500).send({
-            message: "Lỗi khi tìm môn " + tenMon,
+            message: err.message || "Lỗi khi tìm môn " + tenMon,
           });
         }
       } else res.send(data);
