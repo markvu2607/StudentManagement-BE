@@ -10,7 +10,7 @@ const KhoaController = {
       Khoa.Them(new Khoa(req.body), (err, data) => {
         if (err)
           res.status(500).send({
-            message: err.message || "Có lỗi khi tạo khoa.",
+            message: res.message || "ERROR",
           });
         else res.send(data);
       });
@@ -29,7 +29,7 @@ const KhoaController = {
             });
           } else {
             res.status(500).send({
-              message: "Lỗi cập nhật khoa id " + req.params.idKhoa,
+              message: res.message || "ERROR",
             });
           }
         } else res.send(data);
@@ -44,7 +44,7 @@ const KhoaController = {
           });
         } else {
           res.status(500).send({
-            message: "Lỗi khi tìm khoa id " + req.params.idKhoa,
+            message: res.message || "ERROR",
           });
         }
       } else res.send(data);
@@ -60,7 +60,7 @@ const KhoaController = {
           });
         } else {
           res.status(500).send({
-            message: "Lỗi khi tìm khoa với từ khóa " + tuKhoa,
+            message: res.message || "ERROR",
           });
         }
       } else res.send(data);
