@@ -51,6 +51,7 @@ const DiemController = {
         } else res.send(data);
       });
   },
+  
   Xem: (req, res) => {
     if (!req.params.idsv) {
       res.status(400).send({

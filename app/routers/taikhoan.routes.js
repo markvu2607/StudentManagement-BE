@@ -7,6 +7,6 @@ router.post("/", taiKhoanController.Them)
 router.put("/:idtk", taiKhoanController.Sua);
 router.get("/:idtk", taiKhoanController.Xem);
 router.delete("/:idtk", taiKhoanController.Khoa);
-router.get("/", taiKhoanController.search)
+router.get("/", taiKhoanController.TimKiem)
 
 export default router

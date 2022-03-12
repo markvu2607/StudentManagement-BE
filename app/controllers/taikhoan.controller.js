@@ -78,17 +78,16 @@ const TaiKhoanController = {
         });
     });
   },
-  search: (req, res) => {
-    const keyword = req.params.keyword
-    TaiKhoan.search(keyword, (err, data) => {
+  TimKiem: (req, res) => {
+    TaiKhoan.TimKiem(req.query.chucNang, req.query.tenDangNhap, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Không tìm thấy tài khoản với từ khóa ${keyword}.`,
+            message: `Không tìm thấy tài khoản`,
           });
         } else {
           res.status(500).send({
-            message: "Lỗi khi tìm tai khoan với từ khóa " + keyword,
+            message: req.message || "Lỗi khi tìm tài khoản",
           });
         }
       } else res.send(data);

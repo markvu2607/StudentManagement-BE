@@ -74,10 +74,10 @@ TaiKhoan.Khoa = (idtk, result) => {
   );
 };
 
-TaiKhoan.search = (keyword, result) => {
+TaiKhoan.TimKiem = (chucNang, tenDangNhap, result) => {
   let query = "SELECT * FROM taikhoan";
-  if (keyword) {
-    query += ` WHERE tenDangNhap LIKE '%${keyword}%' OR idsv LIKE '%${keyword}%'`;
+  if (chucNang || tenDangNhap) {
+    query += ` WHERE chucNang LIKE '%${chucNang}%' AND tenDangNhap LIKE '%${tenDangNhap}%';`;
   }
   queryDB(query, (err, res) => {
     if (err) {
