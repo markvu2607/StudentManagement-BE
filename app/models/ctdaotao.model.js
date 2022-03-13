@@ -8,7 +8,7 @@ const CtDaoTao = function (ctDaoTao) {
 CtDaoTao.Them = (ctDaoTaoMoi, result) => {
   queryDB(
     "INSERT INTO ctdaotao SET tenctdt = ?, idKhoa = ?",
-    [ctDaoTaoMoi.tenctdt, ctDaoTaoMoi.moTa, ctDaoTaoMoi.idKhoa],
+    [ctDaoTaoMoi.tenctdt, ctDaoTaoMoi.idKhoa],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
