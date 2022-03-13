@@ -27,7 +27,7 @@ CtDaoTao.Them = (ctDaoTaoMoi, result) => {
 CtDaoTao.Sua = (idctdt, ctDaoTao, result) => {
   queryDB(
     "UPDATE ctdaotao SET tenctdt = ?, idKhoa = ? WHERE idctdt = ?",
-    [ctDaoTao.tenctdt, ctDaoTao.moTa, ctDaoTao.idKhoa, idctdt],
+    [ctDaoTao.tenctdt, ctDaoTao.idKhoa, idctdt],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
