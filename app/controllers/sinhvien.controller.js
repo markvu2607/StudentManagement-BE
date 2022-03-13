@@ -98,32 +98,21 @@ const SinhVienController = {
     console.log(tuKhoa);
     SinhVien.TimKiem(tuKhoa, (err, data) => {
       if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Không tìm thấy sinh viên với từ khóa ${tuKhoa}.`,
-          });
-        } else {
-          res.status(500).send({
-            message: err.message || "ERROR",
-          });
-        }
-      } else res.send(data);
+        res.status(500).send({
+          message: err.message || "ERROR",
+        });
+      }
+      res.send(data);
     });
   },
   ThongKeKTX: (req, res) => {
     SinhVien.ThongKeKTX((err, data) => {
       console.log(err);
       if (err)
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Không tìm thấy sinh viên nào`,
-          });
-        } else {
-          res.status(500).send({
-            message:
-              err.message || "Lỗi khi thống kê sinh viên ở trong ký túc xá.",
-          });
-        }
+        res.status(500).send({
+          message:
+            err.message || "Lỗi khi thống kê sinh viên ở trong ký túc xá.",
+        });
       else res.send(data);
     });
   },
@@ -134,15 +123,9 @@ const SinhVienController = {
       req.query.gioiHan,
       (err, data) => {
         if (err)
-          if (err.kind === "not_found") {
-            res.status(404).send({
-              message: `Không tìm thấy sinh viên nào`,
-            });
-          } else {
-            res.status(500).send({
-              message: err.message || "Lỗi khi thống kê sinh viên có học bổng.",
-            });
-          }
+          res.status(500).send({
+            message: err.message || "Lỗi khi thống kê sinh viên có học bổng.",
+          });
         else res.send(data);
       }
     );
@@ -154,16 +137,10 @@ const SinhVienController = {
       req.query.tinhTrang,
       (err, data) => {
         if (err)
-          if (err.kind === "not_found") {
-            res.status(404).send({
-              message: `Không tìm thấy sinh viên nào`,
-            });
-          } else {
-            res.status(500).send({
-              message:
-                err.message || "Lỗi khi thống kê tình trạng học phí sinh viên.",
-            });
-          }
+          res.status(500).send({
+            message:
+              err.message || "Lỗi khi thống kê tình trạng học phí sinh viên.",
+          });
         else res.send(data);
       }
     );

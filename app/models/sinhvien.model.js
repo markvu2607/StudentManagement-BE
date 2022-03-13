@@ -158,26 +158,33 @@ SinhVien.ThongKeKTX = (result) => {
       console.log("error: ", err);
       result(null, err);
       return;
-    } else if (res.length) {
-      console.log("Sinh viên hiện ở trong ktx: ", res);
-      result(null, res);
-    } else result({ kind: "not_found" }, null);
+    }
+    console.log("Sinh viên hiện ở trong ktx: ", res);
+    result(null, res);
   });
 };
 
 SinhVien.ThongKeHocBong = (idKhoa, idky, gioiHan, result) => {
-  queryDB(
-    "call SP_ThongKeHocBong(?, ?, ?);",
-    [idKhoa, idky, gioiHan],
+  let query = `SELECT sinhvien.idsv, sinhvien.tensv, khoa.tenKhoa, kyHoc.tenKyHoc, diem.diemTichLuy AS DiemTichLuy, diemrenluyen.diem AS DiemRenLuyen`+
+	` FROM sinhvien`+
+	` INNER JOIN (SELECT * FROM khoa WHERE khoa.idKhoa LIKE '%${idKhoa}%') AS khoa ON sinhvien.idKhoa = khoa.idKhoa`+
+	` INNER JOIN (SELECT avg(F_ConvertCtoN(diem.diemHeSo4)) AS diemTichLuy, idsv, idLop FROM diem GROUP BY idsv) AS diem ON sinhvien.idsv = diem.idsv`+
+	` INNER JOIN diemrenluyen ON sinhvien.idsv = diemrenluyen.idsv`+
+	` INNER JOIN (SELECT * FROM kyHoc WHERE kyHoc.idky LIKE '%${idky}%') AS kyHoc ON diemrenluyen.idky = kyHoc.idky`+
+	` INNER JOIN lophocphan ON diem.idLop = lophocphan.idLop`+
+	` WHERE diem.diemTichLuy > 3.2 AND diemrenluyen.diem > 70`+
+	` Group By sinhvien.idsv`+
+	` ORDER BY (diem.diemTichLuy + diemrenluyen.diem) DESC`;
+  if (gioiHan) query += ` LIMIT ${gioiHan};`;
+  queryDB(query,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
         return;
-      } else if (res.length) {
-        console.log("Sinh viên có học bổng: ", res);
-        result(null, res);
-      } else result({ kind: "not_found" }, null);
+      }
+      console.log("Sinh viên có học bổng: ", res);
+      result(null, res);
     }
   );
 };
@@ -189,7 +196,7 @@ SinhVien.ThongKeHocPhi = (idKhoa, idky, tinhTrang, result) => {
     ` INNER JOIN khoa ON sinhvien.idKhoa = khoa.idKhoa` +
     ` INNER JOIN hocphi ON sinhvien.idsv = hocphi.idsv` +
     ` INNER JOIN kyHoc ON hocphi.idky = kyHoc.idky`;
-  if (idKhoa || idky || gioiHan) {
+  if (idKhoa || idky || tinhTrang) {
     query += ` WHERE khoa.idKhoa LIKE '%${idKhoa}%' AND kyHoc.idky LIKE '%${idky}%' AND hocphi.tinhTrang LIKE '%${tinhTrang}%'`;
   }
   queryDB(query, (err, res) => {
@@ -198,11 +205,8 @@ SinhVien.ThongKeHocPhi = (idKhoa, idky, tinhTrang, result) => {
       result(null, err);
       return;
     }
-    if (res.length) {
-      console.log("Sinh viên: ", res);
-      result(null, res);
-    }
-    result({ kind: "not_found" }, null);
+    console.log("Sinh viên: ", res);
+    result(null, res);
   });
 };
 export default SinhVien;
