@@ -30,8 +30,6 @@ const TaiKhoanController = {
   },
   Sua: (req, res) => {
     if (
-      !req.body.tenDangNhap ||
-      !req.body.matKhau ||
       !req.body.chucNang ||
       !req.body.trangThai
     ) {
@@ -40,8 +38,6 @@ const TaiKhoanController = {
       });
     } else {
       const taiKhoan = new TaiKhoan({
-        tenDangNhap: req.body.tenDangNhap,
-        matKhau: bcrypt.hashSync(req.body.matKhau, 10),
         chucNang: req.body.chucNang,
         trangThai: req.body.trangThai,
       });

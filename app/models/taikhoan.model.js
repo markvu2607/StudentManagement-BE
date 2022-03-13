@@ -31,10 +31,8 @@ TaiKhoan.Them = (taiKhoanMoi, result) => {
 
 TaiKhoan.Sua = (idtk, taiKhoan, result) => {
   queryDB(
-    "UPDATE taikhoan SET tenDangNhap = ?, matKhau = ?, chucNang = ?, trangThai = ? WHERE idtk = ?",
+    "UPDATE taikhoan SET chucNang = ?, trangThai = ? WHERE idtk = ?",
     [
-      taiKhoan.tenDangNhap,
-      taiKhoan.matKhau,
       taiKhoan.chucNang,
       taiKhoan.trangThai,
       idtk,
