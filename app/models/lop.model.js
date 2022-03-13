@@ -91,7 +91,7 @@ Lop.Xem = (idLop, result) => {
   FROM lophocphan INNER JOIN kyHoc ON lophocphan.idky = kyHoc.idky
   INNER JOIN giangvien ON lophocphan.idgv = giangvien.idgv
   INNER JOIN monhoc ON monhoc.idmh = monhoc.idmh
-  WHERE idLop = ${idLop}`, (err, res) => {
+  WHERE lophocphan.idLop = ${idLop}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
