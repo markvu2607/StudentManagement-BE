@@ -51,7 +51,7 @@ const DiemController = {
         } else res.send(data);
       });
   },
-  
+
   Xem: (req, res) => {
     if (!req.params.idsv) {
       res.status(400).send({
@@ -73,8 +73,7 @@ const DiemController = {
       });
   },
   TimKiem: (req, res) => {
-    const tuKhoa = req.query.tuKhoa;
-    Diem.TimKiem(tuKhoa, (err, data) => {
+    Diem.TimKiem(req.query.tenlop, req.query.idky, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({

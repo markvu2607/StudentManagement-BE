@@ -10,7 +10,7 @@ const Diem = function (diem) {
 };
 
 Diem.Them = (diemMoi, result) => {
-    queryDB(
+  queryDB(
     "INSERT INTO diem SET diemQuaTrinh = ?, diemThi = ?, diemTrungBinh = ?, diemHeSo4 = ?, idsv = ?, idLop = ?",
     [
       diemMoi.diemQuaTrinh,
@@ -36,7 +36,7 @@ Diem.Them = (diemMoi, result) => {
 };
 
 Diem.Sua = (idDiem, diem, result) => {
-    queryDB(
+  queryDB(
     "UPDATE diem SET diemQuaTrinh = ?, diemThi = ?, diemTrungBinh = ?, diemHeSo4 = ?, idsv = ?, idLop = ? WHERE idDiem = ?",
     [
       diem.diemQuaTrinh,
@@ -63,7 +63,7 @@ Diem.Sua = (idDiem, diem, result) => {
 };
 
 Diem.Xem = (idsv, result) => {
-    queryDB(
+  queryDB(
     "SELECT diem.idDiem, sinhvien.idsv, sinhvien.tenSv, lophocphan.idmh, diem.diemQuaTrinh, diem.diemThi, diem.diemTrungBinh, diem.diemHeSo4" +
       " FROM sinhvien INNER JOIN (diem INNER JOIN lophocphan ON diem.idLop = lophocphan.idLop) ON sinhvien.idsv = diem.idsv" +
       " WHERE sinhvien.idsv = ?",
@@ -80,19 +80,21 @@ Diem.Xem = (idsv, result) => {
   );
 };
 
-Diem.TimKiem = (tuKhoa, result) => {
+Diem.TimKiem = (tenLop, idky, result) => {
   let query =
-    "SELECT lophocphan.tenLop, sinhvien.idsv, sinhvien.tensv, diem.diemQuaTrinh, diem.diemThi, diem.diemTrungBinh, diem.diemHeSo4" +
-    " FROM sinhvien INNER JOIN (diem INNER JOIN lophocphan ON diem.idLop = lophocphan.idLop) ON sinhvien.idsv = diem.idsv";
-  if (tuKhoa)
-    query += ` WHERE lophocphan.tenLop LIKE '%${tuKhoa}%' OR lophocphan.idLop LIKE '%${tuKhoa}%'`;
-    queryDB(query, (err, res) => {
+    "SELECT sinhvien.idsv, sinhvien.tensv, lophocphan.tenLop, diem.diemQuaTrinh, diem.diemThi, diem.diemTrungBinh, diem.diemHeSo4" +
+    " FROM sinhvien" +
+    " INNER JOIN diem ON sinhvien.idsv = diem.idsv" +
+    " INNER JOIN lophocphan ON diem.idLop = lophocphan.idLop";
+  if (tenLop || idky)
+    query += ` WHERE lophocphan.tenLop LIKE '%${tenLop}%' AND lophocphan.idky LIKE '${idky}'`;
+  queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
       return;
     }
-    console.log("Thống kê điểm rèn luyện: ", res);
+    console.log("Thống kê điểm: ", res);
     result(null, res);
   });
 };

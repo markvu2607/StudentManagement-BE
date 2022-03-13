@@ -170,10 +170,10 @@ SinhVien.ThongKeKTX = (kyTucXa, result) => {
 SinhVien.ThongKeHocBong = (idKhoa, idky, gioiHan, result) => {
   let query = `SELECT sinhvien.idsv, sinhvien.tensv, khoa.tenKhoa, kyHoc.tenKyHoc, diem.diemTichLuy AS DiemTichLuy, diemrenluyen.diem AS DiemRenLuyen`+
 	` FROM sinhvien`+
-	` INNER JOIN (SELECT * FROM khoa WHERE khoa.idKhoa LIKE '%${idKhoa}%') AS khoa ON sinhvien.idKhoa = khoa.idKhoa`+
+	` INNER JOIN (SELECT * FROM khoa WHERE khoa.idKhoa LIKE '${idKhoa}') AS khoa ON sinhvien.idKhoa = khoa.idKhoa`+
 	` INNER JOIN (SELECT avg(F_ConvertCtoN(diem.diemHeSo4)) AS diemTichLuy, idsv, idLop FROM diem GROUP BY idsv) AS diem ON sinhvien.idsv = diem.idsv`+
 	` INNER JOIN diemrenluyen ON sinhvien.idsv = diemrenluyen.idsv`+
-	` INNER JOIN (SELECT * FROM kyHoc WHERE kyHoc.idky LIKE '%${idky}%') AS kyHoc ON diemrenluyen.idky = kyHoc.idky`+
+	` INNER JOIN (SELECT * FROM kyHoc WHERE kyHoc.idky LIKE '${idky}') AS kyHoc ON diemrenluyen.idky = kyHoc.idky`+
 	` INNER JOIN lophocphan ON diem.idLop = lophocphan.idLop`+
 	` WHERE diem.diemTichLuy > 3.2 AND diemrenluyen.diem > 70`+
 	` Group By sinhvien.idsv`+
@@ -200,7 +200,7 @@ SinhVien.ThongKeHocPhi = (idKhoa, idky, tinhTrang, result) => {
     ` INNER JOIN hocphi ON sinhvien.idsv = hocphi.idsv` +
     ` INNER JOIN kyHoc ON hocphi.idky = kyHoc.idky`;
   if (idKhoa || idky || tinhTrang) {
-    query += ` WHERE khoa.idKhoa LIKE '%${idKhoa}%' AND kyHoc.idky LIKE '%${idky}%' AND hocphi.tinhTrang LIKE '%${tinhTrang}%'`;
+    query += ` WHERE khoa.idKhoa LIKE '${idKhoa}' AND kyHoc.idky LIKE '${idky}' AND hocphi.tinhTrang LIKE '${tinhTrang}'`;
   }
   queryDB(query, (err, res) => {
     if (err) {
