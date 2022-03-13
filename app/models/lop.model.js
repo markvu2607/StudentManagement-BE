@@ -71,7 +71,7 @@ Lop.Sua = (idLop, lop, result) => {
 };
 
 Lop.Dung = (idLop, result) => {
-  queryDB("UPDATE lophocphan SET trangThai = 0 WHERE idLop = ?", idLop, (err, res) => {
+  queryDB("UPDATE lophocphan SET trangThai = 'tamdung' WHERE idLop = ?", idLop, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
