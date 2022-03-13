@@ -106,7 +106,7 @@ const SinhVienController = {
     });
   },
   ThongKeKTX: (req, res) => {
-    SinhVien.ThongKeKTX((err, data) => {
+    SinhVien.ThongKeKTX(req.query.kytucxa, (err, data) => {
       console.log(err);
       if (err)
         res.status(500).send({

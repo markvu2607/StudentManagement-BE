@@ -152,8 +152,11 @@ SinhVien.TimKiem = (tuKhoa, result) => {
 //   });
 // };
 
-SinhVien.ThongKeKTX = (result) => {
-  queryDB("SELECT * FROM sinhvien WHERE kyTucXa = TRUE;", (err, res) => {
+SinhVien.ThongKeKTX = (kyTucXa, result) => {
+  let query = "SELECT * FROM sinhvien";
+  if (kyTucXa) query += ` WHERE kyTucXa = ${kyTucXa};`;
+  console.log(query);
+  queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
