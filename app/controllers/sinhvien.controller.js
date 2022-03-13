@@ -114,10 +114,16 @@ const SinhVienController = {
     SinhVien.ThongKeKTX((err, data) => {
       console.log(err);
       if (err)
-        res.status(500).send({
-          message:
-            err.message || "Lỗi khi thống kê sinh viên ở trong ký túc xá.",
-        });
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Không tìm thấy sinh viên nào`,
+          });
+        } else {
+          res.status(500).send({
+            message:
+              err.message || "Lỗi khi thống kê sinh viên ở trong ký túc xá.",
+          });
+        }
       else res.send(data);
     });
   },
@@ -128,9 +134,36 @@ const SinhVienController = {
       req.query.gioiHan,
       (err, data) => {
         if (err)
-          res.status(500).send({
-            message: err.message || "Lỗi khi thống kê sinh viên có học bổng.",
-          });
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Không tìm thấy sinh viên nào`,
+            });
+          } else {
+            res.status(500).send({
+              message: err.message || "Lỗi khi thống kê sinh viên có học bổng.",
+            });
+          }
+        else res.send(data);
+      }
+    );
+  },
+  ThongKeHocPhi: (req, res) => {
+    SinhVien.ThongKeHocPhi(
+      req.query.idKhoa,
+      req.query.idky,
+      req.query.tinhTrang,
+      (err, data) => {
+        if (err)
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Không tìm thấy sinh viên nào`,
+            });
+          } else {
+            res.status(500).send({
+              message:
+                err.message || "Lỗi khi thống kê tình trạng học phí sinh viên.",
+            });
+          }
         else res.send(data);
       }
     );

@@ -158,12 +158,10 @@ SinhVien.ThongKeKTX = (result) => {
       console.log("error: ", err);
       result(null, err);
       return;
-    }
-    else if (res.length) {
+    } else if (res.length) {
       console.log("Sinh viên hiện ở trong ktx: ", res);
       result(null, res);
-    }
-    else result({ kind: "not_found" }, null);
+    } else result({ kind: "not_found" }, null);
   });
 };
 
@@ -176,13 +174,36 @@ SinhVien.ThongKeHocBong = (idKhoa, idky, gioiHan, result) => {
         console.log("error: ", err);
         result(null, err);
         return;
-      }
-      else if (res.length) {
+      } else if (res.length) {
         console.log("Sinh viên có học bổng: ", res);
         result(null, res);
-      }
-      else result({ kind: "not_found" }, null);
+      } else result({ kind: "not_found" }, null);
     }
   );
+};
+
+SinhVien.ThongKeHocPhi = (idKhoa, idky, tinhTrang, result) => {
+  let query =
+    `SELECT sinhvien.idsv, sinhvien.tensv, kyHoc.tenKyHoc, khoa.tenKhoa, hocphi.tongTien, hocphi.tinhTrang` +
+    ` FROM sinhvien` +
+    ` INNER JOIN khoa ON sinhvien.idKhoa = khoa.idKhoa` +
+    ` INNER JOIN hocphi ON sinhvien.idsv = hocphi.idsv` +
+    ` INNER JOIN kyHoc ON hocphi.idky = kyHoc.idky`;
+  if (idKhoa || idky || gioiHan) {
+    query += ` WHERE khoa.idKhoa LIKE '%${idKhoa}%' AND kyHoc.idky LIKE '%${idky}%' AND hocphi.tinhTrang LIKE '%${tinhTrang}%'`;
+  }
+  queryDB(query, (err, res) => {
+    console.log(query," ", err);
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    if (res.length) {
+      console.log("Sinh viên: ", res);
+      result(null, res);
+    }
+    result({ kind: "not_found" }, null);
+  });
 };
 export default SinhVien;
