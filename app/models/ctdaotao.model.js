@@ -66,7 +66,7 @@ CtDaoTao.Xem = (idctdt, result) => {
 CtDaoTao.TimKiem = (idKhoa, tenctdt, result) => {
   let query = "SELECT ctdaotao.*, khoa.tenKhoa FROM ctdaotao INNER JOIN khoa ON khoa.idKhoa = ctdaotao.idKhoa";
   if (tenctdt || idKhoa) {
-    query += ` WHERE khoa.idKhoa LIKE '%${idKhoa}%' AND ctdaotao.tenctdt LIKE '%${tenctdt}%'`;
+    query += ` WHERE khoa.idKhoa LIKE '${idKhoa}' AND ctdaotao.tenctdt LIKE '%${tenctdt}%'`;
   }
   queryDB(query, (err, res) => {
     if (err) {
