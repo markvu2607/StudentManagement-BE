@@ -193,7 +193,6 @@ SinhVien.ThongKeHocPhi = (idKhoa, idky, tinhTrang, result) => {
     query += ` WHERE khoa.idKhoa LIKE '%${idKhoa}%' AND kyHoc.idky LIKE '%${idky}%' AND hocphi.tinhTrang LIKE '%${tinhTrang}%'`;
   }
   queryDB(query, (err, res) => {
-    console.log(query," ", err);
     if (err) {
       console.log("error: ", err);
       result(null, err);
