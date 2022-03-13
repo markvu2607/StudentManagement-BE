@@ -40,7 +40,7 @@ Lop.Them = (lopMoi, result) => {
 
 Lop.Sua = (idLop, lop, result) => {
   queryDB(
-    "UPDATE lophocphan SET idmh = ?, tenLop = ?, phongHoc = ?, soLuong = ?, thoiGianBd = ?, thoiGianKt = ?, trangThai = ?, idgv = ? WHERE idLop = ? AND idky = ?",
+    "UPDATE lophocphan SET idmh = ?, tenLop = ?, phongHoc = ?, soLuong = ?, thoiGianBd = ?, thoiGianKt = ?, trangThai = ?, idgv = ?, idky = ? WHERE idLop = ?",
     [
       lop.idmh,
       lop.tenLop,
@@ -59,6 +59,7 @@ Lop.Sua = (idLop, lop, result) => {
         result(null, err);
         return;
       }
+      console.log(res);
       if (res.affectedRows == 0) {
         result({ kind: "not_found" }, null);
         return;
