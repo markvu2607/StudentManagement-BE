@@ -40,7 +40,7 @@ Lop.Them = (lopMoi, result) => {
 
 Lop.Sua = (idLop, lop, result) => {
   queryDB(
-    "UPDATE lophocphan SET idmh = ?, tenLop = ?, phongHoc = ?, soLuong = ?, thoiGianBd = ?, thoiGianKt = ?, trangThai = ?, idgv = ? WHERE idLop = ?, idky = ?",
+    "UPDATE lophocphan SET idmh = ?, tenLop = ?, phongHoc = ?, soLuong = ?, thoiGianBd = ?, thoiGianKt = ?, trangThai = ?, idgv = ? WHERE idLop = ? AND idky = ?",
     [
       lop.idmh,
       lop.tenLop,
