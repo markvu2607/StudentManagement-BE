@@ -89,7 +89,7 @@ const LopController = {
     });
   },
   TimKiem: (req, res) => {
-    Lop.TimKiem(req.query.idky, req.query.tenlop, (err, data) => {
+    Lop.TimKiem(req.query.idky, req.query.idgv, req.query.tenlop, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({

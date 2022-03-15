@@ -106,13 +106,13 @@ Lop.Xem = (idLop, result) => {
   });
 };
 
-Lop.TimKiem = (idky, tenLop, result) => {
+Lop.TimKiem = (idky, idgv, tenLop, result) => {
   let query = `SELECT lophocphan.*, monhoc.tenMon, giangvien.tengv, kyHoc.tenKyHoc`+
   ` FROM lophocphan INNER JOIN kyHoc ON lophocphan.idky = kyHoc.idky`+
   ` INNER JOIN giangvien ON lophocphan.idgv = giangvien.idgv`+
   ` INNER JOIN monhoc ON lophocphan.idmh = monhoc.idmh`;
-  if (idky || tenLop) {
-    query += ` WHERE kyHoc.idky LIKE '${idky}' AND lophocphan.tenLop LIKE '%${tenLop}%'`;
+  if (idky || idgv || tenLop) {
+    query += ` WHERE kyHoc.idky LIKE '%${idky}%' AND lophocphan.idgv LIKE '${idgv}' AND lophocphan.tenLop LIKE '%${tenLop}%'`;
   }
   console.log(query);
   queryDB(query, (err, res) => {
