@@ -10,5 +10,6 @@ router.get("/:idsv", sinhVienController.Xem);
 router.get("/thongke/kytucxa", sinhVienController.ThongKeKTX);
 router.get("/thongke/hocbong", sinhVienController.ThongKeHocBong);
 router.get("/thongke/hocphi", sinhVienController.ThongKeHocPhi);
+router.get("/thongke/:idLop", sinhVienController.ThongKeTheoLop);
 
 export default router

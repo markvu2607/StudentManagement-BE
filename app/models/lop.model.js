@@ -125,6 +125,4 @@ Lop.TimKiem = (idky, idgv, tenLop, result) => {
     result(null, res);
   });
 };
-
-
 export default Lop;

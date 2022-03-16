@@ -133,24 +133,24 @@ SinhVien.TimKiem = (tuKhoa, result) => {
   });
 };
 
-// SinhVien.XemTheoLop = (idLop, result) => {
-//   queryDB(`SELECT sinhvien.*
-//   FROM sinhvien
-//   INNER JOIN dkyhocphan ON sinhvien.idsv = dkyhocphan.idsv
-//   INNER JOIN lophocphan ON dkyhocphan.idLop = lophocphan.idLop WHERE idLop = ${idLop}`, (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(err, null);
-//       return;
-//     }
-//     if (res.length) {
-//       console.log("Xem sinh viên theo lớp học phần: ", res);
-//       result(null, res);
-//       return;
-//     }
-//     result({ kind: "not_found" }, null);
-//   });
-// };
+SinhVien.ThongKeTheoLop = (idLop, result) => {
+  queryDB(
+    `SELECT sinhvien.idsv, sinhvien.tensv, khoa.tenKhoa, lophocphan.tenLop, lophocphan.trangThai
+  FROM sinhvien
+  INNER JOIN khoa ON sinhvien.idKhoa = khoa.idKhoa
+  INNER JOIN dkyhocphan ON sinhvien.idsv = dkyhocphan.idsv
+  INNER JOIN lophocphan ON dkyhocphan.idLop = lophocphan.idLop WHERE lophocphan.idLop = ${idLop}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      console.log("Xem sinh viên theo lớp học phần: ", res);
+      result(null, res);
+    }
+  );
+};
 
 SinhVien.ThongKeKTX = (kyTucXa, result) => {
   let query = "SELECT * FROM sinhvien";
@@ -168,28 +168,27 @@ SinhVien.ThongKeKTX = (kyTucXa, result) => {
 };
 
 SinhVien.ThongKeHocBong = (idKhoa, idky, gioiHan, result) => {
-  let query = `SELECT sinhvien.idsv, sinhvien.tensv, khoa.tenKhoa, kyHoc.tenKyHoc, diem.diemTichLuy AS DiemTichLuy, diemrenluyen.diem AS DiemRenLuyen`+
-	` FROM sinhvien`+
-	` INNER JOIN (SELECT * FROM khoa WHERE khoa.idKhoa LIKE '${idKhoa}') AS khoa ON sinhvien.idKhoa = khoa.idKhoa`+
-	` INNER JOIN (SELECT avg(F_ConvertCtoN(diem.diemHeSo4)) AS diemTichLuy, idsv, idLop FROM diem GROUP BY idsv) AS diem ON sinhvien.idsv = diem.idsv`+
-	` INNER JOIN diemrenluyen ON sinhvien.idsv = diemrenluyen.idsv`+
-	` INNER JOIN (SELECT * FROM kyHoc WHERE kyHoc.idky LIKE '${idky}') AS kyHoc ON diemrenluyen.idky = kyHoc.idky`+
-	` INNER JOIN lophocphan ON diem.idLop = lophocphan.idLop`+
-	` WHERE diem.diemTichLuy > 3.2 AND diemrenluyen.diem > 70`+
-	` Group By sinhvien.idsv`+
-	` ORDER BY (diem.diemTichLuy + diemrenluyen.diem) DESC`;
+  let query =
+    `SELECT sinhvien.idsv, sinhvien.tensv, khoa.tenKhoa, kyHoc.tenKyHoc, diem.diemTichLuy AS DiemTichLuy, diemrenluyen.diem AS DiemRenLuyen` +
+    ` FROM sinhvien` +
+    ` INNER JOIN (SELECT * FROM khoa WHERE khoa.idKhoa LIKE '${idKhoa}') AS khoa ON sinhvien.idKhoa = khoa.idKhoa` +
+    ` INNER JOIN (SELECT avg(F_ConvertCtoN(diem.diemHeSo4)) AS diemTichLuy, idsv, idLop FROM diem GROUP BY idsv) AS diem ON sinhvien.idsv = diem.idsv` +
+    ` INNER JOIN diemrenluyen ON sinhvien.idsv = diemrenluyen.idsv` +
+    ` INNER JOIN (SELECT * FROM kyHoc WHERE kyHoc.idky LIKE '${idky}') AS kyHoc ON diemrenluyen.idky = kyHoc.idky` +
+    ` INNER JOIN lophocphan ON diem.idLop = lophocphan.idLop` +
+    ` WHERE diem.diemTichLuy > 3.2 AND diemrenluyen.diem > 70` +
+    ` Group By sinhvien.idsv` +
+    ` ORDER BY (diem.diemTichLuy + diemrenluyen.diem) DESC`;
   if (gioiHan) query += ` LIMIT ${gioiHan};`;
-  queryDB(query,
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
-      console.log("Sinh viên có học bổng: ", res);
-      result(null, res);
+  queryDB(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
     }
-  );
+    console.log("Sinh viên có học bổng: ", res);
+    result(null, res);
+  });
 };
 
 SinhVien.ThongKeHocPhi = (idKhoa, idky, tinhTrang, result) => {

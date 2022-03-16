@@ -145,5 +145,19 @@ const SinhVienController = {
       }
     );
   },
+  ThongKeTheoLop: (req, res) => {
+    if (!req.params.idLop) {
+      res.status(400).send({
+        message: "Nội dung trống!",
+      });
+    } else
+      SinhVien.ThongKeTheoLop(req.params.idLop, (err, data) => {
+        if (err)
+          res.status(500).send({
+            message: err.message || "Lỗi khi xem sinh viên theo lớp.",
+          });
+        else res.send(data);
+      });
+  },
 };
 export default SinhVienController;
