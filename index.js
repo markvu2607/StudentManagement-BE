@@ -16,6 +16,7 @@ import giangVienRoutes from "./app/routers/giangvien.routes.js"
 import kyHocRoutes from "./app/routers/kyhoc.routes.js"
 import diemRenLuyenRoutes from "./app/routers/diemrenluyen.routes.js"
 import diemRoutes from "./app/routers/diem.routes.js"
+import diemDanhRoutes from "./app/routers/diemdanh.routes.js"
 
 dotenv.config()
 
@@ -41,6 +42,7 @@ app.use("/api/giangvien", giangVienRoutes);
 app.use("/api/kyhoc", kyHocRoutes);
 app.use("/api/diemrenluyen", diemRenLuyenRoutes);
 app.use("/api/diem", diemRoutes);
+app.use("/api/diemdanh", diemDanhRoutes);
 
 mysql.createConnection({
     host: process.env.DATABASE_HOST,

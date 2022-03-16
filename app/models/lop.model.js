@@ -114,7 +114,6 @@ Lop.TimKiem = (idky, idgv, tenLop, result) => {
   if (idky || idgv || tenLop) {
     query += ` WHERE kyHoc.idky LIKE '%${idky}%' AND lophocphan.idgv LIKE '${idgv}' AND lophocphan.tenLop LIKE '%${tenLop}%'`;
   }
-  console.log(query);
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);
