@@ -11,7 +11,7 @@ const Diem = function (diem) {
 
 Diem.Them = (idDiem, diemMoi, result) => {
   queryDB(
-    "UPDATE diem SET diemQuaTrinh = ?, diemThi = ?, diemTrungBinh = ?, diemHeSo4 = ?, idsv = ?, idLop = ? WHREE idDiem = ?",
+    "UPDATE diem SET diemQuaTrinh = ?, diemThi = ?, diemTrungBinh = ?, diemHeSo4 = ?, idsv = ?, idLop = ? WHERE idDiem = ?",
     [
       diemMoi.diemQuaTrinh,
       diemMoi.diemThi,
@@ -65,7 +65,7 @@ Diem.Sua = (idDiem, diem, result) => {
 
 Diem.Xem = (idsv, result) => {
   queryDB(
-    "SELECT diem.idDiem, sinhvien.idsv, sinhvien.tenSv, lophocphan.idmh, diem.diemQuaTrinh, diem.diemThi, diem.diemTrungBinh, diem.diemHeSo4" +
+    "SELECT diem.idDiem, sinhvien.idsv, sinhvien.tenSv, lophocphan.idmh, lophocphan.tenLop, diem.diemQuaTrinh, diem.diemThi, diem.diemTrungBinh, diem.diemHeSo4" +
       " FROM sinhvien INNER JOIN (diem INNER JOIN lophocphan ON diem.idLop = lophocphan.idLop) ON sinhvien.idsv = diem.idsv" +
       " WHERE sinhvien.idsv = ?",
     idsv,
@@ -83,7 +83,7 @@ Diem.Xem = (idsv, result) => {
 
 Diem.TimKiem = (tenLop, idky, result) => {
   let query =
-    "SELECT sinhvien.idsv, sinhvien.tensv, lophocphan.idLop, lophocphan.tenLop, diem.diemQuaTrinh, diem.diemThi, diem.diemTrungBinh, diem.diemHeSo4" +
+    "SELECT diem.idDiem, sinhvien.idsv, sinhvien.tensv, lophocphan.idLop, lophocphan.tenLop, diem.diemQuaTrinh, diem.diemThi, diem.diemTrungBinh, diem.diemHeSo4" +
     " FROM sinhvien" +
     " INNER JOIN diem ON sinhvien.idsv = diem.idsv" +
     " INNER JOIN lophocphan ON diem.idLop = lophocphan.idLop";
