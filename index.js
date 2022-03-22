@@ -16,13 +16,10 @@ import giangVienRoutes from "./app/routers/giangvien.routes.js"
 import kyHocRoutes from "./app/routers/kyhoc.routes.js"
 import diemRenLuyenRoutes from "./app/routers/diemrenluyen.routes.js"
 import diemRoutes from "./app/routers/diem.routes.js"
-<<<<<<< HEAD
 import lichThiRoutes from "./app/routers/lichthi.routes.js"
 import ctLichThiRoutes from "./app/routers/ctlichthi.routes.js"
-=======
 import diemDanhRoutes from "./app/routers/diemdanh.routes.js"
 import taiLieuRoutes from "./app/routers/tailieu.routes.js"
->>>>>>> 8628a81c71da0126fd9a73649250e825b619cbab
 
 dotenv.config()
 
@@ -48,14 +45,10 @@ app.use("/api/giangvien", giangVienRoutes);
 app.use("/api/kyhoc", kyHocRoutes);
 app.use("/api/diemrenluyen", diemRenLuyenRoutes);
 app.use("/api/diem", diemRoutes);
-<<<<<<< HEAD
 app.use("/api/lichthi", lichThiRoutes)
 app.use("/api/ctlichthi", ctLichThiRoutes)
-
-=======
 app.use("/api/diemdanh", diemDanhRoutes);
 app.use("/api/tailieu", taiLieuRoutes);
->>>>>>> 8628a81c71da0126fd9a73649250e825b619cbab
 
 mysql.createConnection({
     host: process.env.DATABASE_HOST,
