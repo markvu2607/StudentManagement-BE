@@ -3,6 +3,7 @@ import Diem from "../models/diem.model.js";
 const DiemController = {
   Them: (req, res) => {
     if (
+      !req.params.idDiem ||
       !req.body.diemQuaTrinh ||
       !req.body.diemThi ||
       !req.body.diemTrungBinh ||
@@ -14,7 +15,7 @@ const DiemController = {
         message: "Nội dung trống!",
       });
     } else
-      Diem.Them(new Diem(req.body), (err, data) => {
+      Diem.Them(req.params.idDiem, new Diem(req.body), (err, data) => {
         if (err)
           res.status(500).send({
             message: err.message || "Có lỗi khi thêm điểm.",

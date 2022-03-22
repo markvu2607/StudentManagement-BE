@@ -117,7 +117,6 @@ Lop.TimKiem = (idky, idgv, tenLop, result) => {
   if (idgv) {
     query += `AND lophocphan.idgv LIKE '${idgv}' `
   }
-  console.log(query);
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);

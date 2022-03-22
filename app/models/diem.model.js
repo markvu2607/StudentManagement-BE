@@ -9,9 +9,9 @@ const Diem = function (diem) {
   this.idLop = diem.idLop;
 };
 
-Diem.Them = (diemMoi, result) => {
+Diem.Them = (idDiem, diemMoi, result) => {
   queryDB(
-    "INSERT INTO diem SET diemQuaTrinh = ?, diemThi = ?, diemTrungBinh = ?, diemHeSo4 = ?, idsv = ?, idLop = ?",
+    "UPDATE diem SET diemQuaTrinh = ?, diemThi = ?, diemTrungBinh = ?, diemHeSo4 = ?, idsv = ?, idLop = ? WHERE idDiem = ?",
     [
       diemMoi.diemQuaTrinh,
       diemMoi.diemThi,
@@ -19,6 +19,7 @@ Diem.Them = (diemMoi, result) => {
       diemMoi.diemHeSo4,
       diemMoi.idsv,
       diemMoi.idLop,
+      idDiem,
     ],
     (err, res) => {
       if (err) {
@@ -27,10 +28,10 @@ Diem.Them = (diemMoi, result) => {
         return;
       }
       console.log("Đã thêm điểm: ", {
-        idDiem: res.insertId,
+        idDiem: idDiem,
         ...diemMoi,
       });
-      result(null, { idDiem: res.insertId, ...diemMoi });
+      result(null, { idDiem: idDiem, ...diemMoi });
     }
   );
 };
@@ -64,7 +65,7 @@ Diem.Sua = (idDiem, diem, result) => {
 
 Diem.Xem = (idsv, result) => {
   queryDB(
-    "SELECT diem.idDiem, sinhvien.idsv, sinhvien.tenSv, lophocphan.idmh, diem.diemQuaTrinh, diem.diemThi, diem.diemTrungBinh, diem.diemHeSo4" +
+    "SELECT diem.idDiem, sinhvien.idsv, sinhvien.tenSv, lophocphan.idmh, lophocphan.tenLop, diem.diemQuaTrinh, diem.diemThi, diem.diemTrungBinh, diem.diemHeSo4" +
       " FROM sinhvien INNER JOIN (diem INNER JOIN lophocphan ON diem.idLop = lophocphan.idLop) ON sinhvien.idsv = diem.idsv" +
       " WHERE sinhvien.idsv = ?",
     idsv,
@@ -74,7 +75,7 @@ Diem.Xem = (idsv, result) => {
         result(null, err);
         return;
       }
-      console.log("Thống kê điểm rèn luyện: ", res);
+      console.log("Thống kê điểm: ", res);
       result(null, res);
     }
   );
@@ -82,12 +83,12 @@ Diem.Xem = (idsv, result) => {
 
 Diem.TimKiem = (tenLop, idky, result) => {
   let query =
-    "SELECT sinhvien.idsv, sinhvien.tensv, lophocphan.tenLop, diem.diemQuaTrinh, diem.diemThi, diem.diemTrungBinh, diem.diemHeSo4" +
+    "SELECT diem.idDiem, sinhvien.idsv, sinhvien.tensv, lophocphan.idLop, lophocphan.tenLop, diem.diemQuaTrinh, diem.diemThi, diem.diemTrungBinh, diem.diemHeSo4" +
     " FROM sinhvien" +
     " INNER JOIN diem ON sinhvien.idsv = diem.idsv" +
     " INNER JOIN lophocphan ON diem.idLop = lophocphan.idLop";
   if (tenLop || idky)
-    query += ` WHERE lophocphan.tenLop LIKE '%${tenLop}%' AND lophocphan.idky LIKE '${idky}'`;
+    query += ` WHERE lophocphan.tenLop LIKE '%${tenLop}%' AND lophocphan.idky LIKE '%${idky}%'`;
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);
