@@ -1,6 +1,5 @@
 import { queryDB } from "../../database.js";
 
-
 const TaiKhoan = function (taiKhoan) {
   this.tenDangNhap = taiKhoan.tenDangNhap;
   this.matKhau = taiKhoan.matKhau;
