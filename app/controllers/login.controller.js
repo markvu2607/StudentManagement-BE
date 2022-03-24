@@ -24,10 +24,16 @@ export const login = (req, res) => {
               `SELECT * FROM giangvien WHERE idtk = ?`,
               account.idtk,
               (err, result) => {
-                const user = JSON.parse(JSON.stringify(result[0]));
-                user.taiKhoan = JSON.parse(JSON.stringify(account));
-                delete user.idtk;
-                res.status(200).json(user);
+                if (result.length) {
+                  const user = JSON.parse(JSON.stringify(result[0]));
+                  user.taiKhoan = JSON.parse(JSON.stringify(account));
+                  delete user.idtk;
+                  res.status(200).json(user);
+                } else {
+                  const user = {};
+                  user.taiKhoan = JSON.parse(JSON.stringify(account));
+                  res.status(200).json(user);
+                }
               }
             );
           else if (account.chucNang == "sinhvien")
@@ -35,10 +41,16 @@ export const login = (req, res) => {
               `SELECT * FROM sinhvien WHERE idtk = ?`,
               account.idtk,
               (err, result) => {
-                const user = JSON.parse(JSON.stringify(result[0]));
-                user.taiKhoan = JSON.parse(JSON.stringify(account));
-                delete user.idtk;
-                res.status(200).json(user);
+                if (result.length) {
+                  const user = JSON.parse(JSON.stringify(result[0]));
+                  user.taiKhoan = JSON.parse(JSON.stringify(account));
+                  delete user.idtk;
+                  res.status(200).json(user);
+                } else {
+                  const user = {};
+                  user.taiKhoan = JSON.parse(JSON.stringify(account));
+                  res.status(200).json(user);
+                }
               }
             );
           else {

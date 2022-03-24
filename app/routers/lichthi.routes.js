@@ -6,5 +6,6 @@ const router = express.Router()
 router.post("/", lichThiController.Them);
 router.put("/:idLop", lichThiController.Sua);
 router.get("/:idLop", lichThiController.getByIDLop)
+router.get("/", lichThiController.TraCuu)
 
 export default router

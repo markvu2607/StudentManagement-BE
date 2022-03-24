@@ -1,4 +1,4 @@
-import LichThi from "../models/lichthi.model.js"
+import LichThi from "../models/lichthi.model.js";
 
 const LichThiController = {
   Them: (req, res) => {
@@ -21,26 +21,29 @@ const LichThiController = {
         message: "Nội dung trống!",
       });
     } else
-      LichThi.Sua(new LichThi({ ...req.body, 'idLop': req.params.idLop }), (err, data) => {
-        if (err) {
-          if (err.kind === "not_found") {
-            res.status(404).send({
-              message: `Không tìm thấy lich thi cua lop ${req.params.idLop}.`,
-            });
-          } else {
-            res.status(500).send({
-              message: res.message || "ERROR",
-            });
-          }
-        } else res.send(data);
-      });
+      LichThi.Sua(
+        new LichThi({ ...req.body, idLop: req.params.idLop }),
+        (err, data) => {
+          if (err) {
+            if (err.kind === "not_found") {
+              res.status(404).send({
+                message: `Không tìm thấy lich thi cua lop ${req.params.idLop}.`,
+              });
+            } else {
+              res.status(500).send({
+                message: res.message || "ERROR",
+              });
+            }
+          } else res.send(data);
+        }
+      );
   },
   getByIDLop: (req, res) => {
     LichThi.getByIDLop(req.params.idLop, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Không tìm thấy lich thi cua lop ${req.params.idLop}.`,
+            message: `Không tìm thấy lịch thi của lớp ${req.params.idLop}.`,
           });
         } else {
           res.status(500).send({
@@ -48,8 +51,22 @@ const LichThiController = {
           });
         }
       } else res.send(data);
-    })
-  }
-}
+    });
+  },
+  TraCuu: (req, res) => {
+    if (!req.query.idsv) {
+      res.status(400).send({
+        message: "Nội dung trống!",
+      });
+    } else
+      LichThi.TraCuu(req.query.idsv, req.query.idky, (err, data) => {
+        if (err) {
+          res.status(500).send({
+            message: res.message || "ERROR",
+          });
+        } else res.send(data);
+      });
+  },
+};
 
-export default LichThiController
+export default LichThiController;
