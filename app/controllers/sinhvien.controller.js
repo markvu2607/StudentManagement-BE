@@ -159,5 +159,19 @@ const SinhVienController = {
         else res.send(data);
       });
   },
+  DaDangKyHoc: (req, res) => {
+    if (!req.query.idsv) {
+      res.status(400).send({
+        message: "Nội dung trống!",
+      });
+    } else
+      SinhVien.DaDangKyHoc(req.query.idsv, req.query.idky, (err, data) => {
+        if (err)
+          res.status(500).send({
+            message: err.message || "Lỗi khi xem học phần đã đăng ký",
+          });
+        else res.send(data);
+      });
+  },
 };
 export default SinhVienController;

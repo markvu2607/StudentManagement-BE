@@ -20,6 +20,7 @@ import lichThiRoutes from "./app/routers/lichthi.routes.js"
 import ctLichThiRoutes from "./app/routers/ctlichthi.routes.js"
 import diemDanhRoutes from "./app/routers/diemdanh.routes.js"
 import taiLieuRoutes from "./app/routers/tailieu.routes.js"
+import hocPhiRoutes from "./app/routers/hocphi.routes.js"
 
 dotenv.config()
 
@@ -49,6 +50,7 @@ app.use("/api/lichthi", lichThiRoutes)
 app.use("/api/ctlichthi", ctLichThiRoutes)
 app.use("/api/diemdanh", diemDanhRoutes);
 app.use("/api/tailieu", taiLieuRoutes);
+app.use("/api/hocphi", hocPhiRoutes);
 
 mysql.createConnection({
     host: process.env.DATABASE_HOST,

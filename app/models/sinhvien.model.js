@@ -211,4 +211,26 @@ SinhVien.ThongKeHocPhi = (idKhoa, idky, tinhTrang, result) => {
     result(null, res);
   });
 };
+
+SinhVien.DaDangKyHoc= (idsv, idky, result) => {
+  let query = `SELECT lophocphan.tenLop, lophocphan.thoiGianBd, lophocphan.thoiGianKt, lophocphan.phongHoc, giangvien.tengv, (concat(dangKy.soSinhVien, "/",lophocphan.soLuong)) AS siSo, monhoc.soTinChi
+  FROM lophocphan
+  INNER JOIN monhoc ON lophocphan.idmh = monhoc.idmh
+  INNER JOIN giangvien ON lophocphan.idgv = giangvien.idgv
+  INNER JOIN (SELECT idlop, count(idLop) AS soSinhVien FROM dkyhocphan GROUP BY idLop) AS dangKy ON lophocphan.idLop = dangKy.idLop
+  INNER JOIN dkyhocphan ON lophocphan.idLop = dkyhocphan.idLop
+  WHERE dkyhocphan.idsv = ${idsv}`;
+  if (idky) {
+    query += ` AND lophocphan.idky = ${idky}`;
+  }
+  queryDB(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log("Học phần đã đăng ký: ", res);
+    result(null, res);
+  });
+};
 export default SinhVien;
