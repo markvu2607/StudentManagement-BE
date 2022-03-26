@@ -212,7 +212,7 @@ SinhVien.ThongKeHocPhi = (idKhoa, idky, tinhTrang, result) => {
   });
 };
 
-SinhVien.DaDangKyHoc= (idsv, idky, result) => {
+SinhVien.DaDangKyHoc = (idsv, idky, result) => {
   let query = `SELECT lophocphan.idLop, lophocphan.tenLop, lophocphan.thoiGianBd, lophocphan.thoiGianKt, lophocphan.phongHoc, giangvien.tengv, (concat(dangKy.soSinhVien, "/",lophocphan.soLuong)) AS siSo, monhoc.soTinChi, monhoc.tienHoc
   FROM lophocphan
   INNER JOIN monhoc ON lophocphan.idmh = monhoc.idmh
@@ -234,18 +234,30 @@ SinhVien.DaDangKyHoc= (idsv, idky, result) => {
   });
 };
 
-SinhVien.DangKyHoc= (idsv, idlop, result) => {
-  let query = `SELECT soLuong FROM lophocphan WHERE idlop = ${idlop};
-  SELECT count(*) FROM dkyhocphan WHERE idlop = ${idlop};
-  WHERE dkyhocphan.idsv = ${idsv} AND dkyhocphan.idlop = ${idlop}`;
+SinhVien.DangKyHoc = (idsv, idlop, result) => {
+  let query = `INSERT INTO dkyhocphan SET idsv = ${idsv}, idlop = ${idlop};`;
+  queryDB(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    console.log("Đăng ký học phần: ", { res });
+    result(null, res);
+  });
+};
+
+SinhVien.HuyHocPhan = (idsv, idlop, result) => {
+  let query = `DELETE FROM dkyhocphan WHERE idsv = ${idsv} AND idlop = ${idlop};`;
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
       return;
     }
-    console.log("Học phần đã đăng ký: ", res);
+    console.log("Hủy học phần: ", res);
     result(null, res);
   });
 };
+
 export default SinhVien;
