@@ -80,7 +80,7 @@ DiemDanh.XemChiTietDiemDanh = (idDiemDanh, result) => {
   };
 
 DiemDanh.XemDanhSach = (idLop, result) => {
-  let query = "SELECT * FROM diemdanh WHERE idLop = " + idLop;
+  let query = "SELECT diemdanh.*, ctdiemdanh.trangThai FROM diemdanh INNER JOIN ctdiemdanh ON diemdanh.idDiemDanh = ctdiemdanh.idDiemDanh WHERE diemdanh.idLop = " + idLop;
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);

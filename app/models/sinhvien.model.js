@@ -233,4 +233,19 @@ SinhVien.DaDangKyHoc= (idsv, idky, result) => {
     result(null, res);
   });
 };
+
+SinhVien.DangKyHoc= (idsv, idlop, result) => {
+  let query = `SELECT soLuong FROM lophocphan WHERE idlop = ${idlop};
+  SELECT count(*) FROM dkyhocphan WHERE idlop = ${idlop};
+  WHERE dkyhocphan.idsv = ${idsv} AND dkyhocphan.idlop = ${idlop}`;
+  queryDB(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log("Học phần đã đăng ký: ", res);
+    result(null, res);
+  });
+};
 export default SinhVien;

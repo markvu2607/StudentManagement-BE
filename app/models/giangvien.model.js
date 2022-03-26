@@ -75,7 +75,7 @@ GiangVien.Sua = (idgv, giangVien, result) => {
 };
 
 GiangVien.Xem = (idgv, result) => {
-  queryDB(`SELECT * FROM giangvien WHERE idgv = ${idgv}`, (err, res) => {
+  queryDB(`SELECT *,taikhoan.tenDangNhap FROM giangvien,taikhoan WHERE giangvien.idgv = ${idgv} and taikhoan.idtk = giangvien.idtk`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
