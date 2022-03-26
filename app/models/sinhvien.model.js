@@ -213,7 +213,7 @@ SinhVien.ThongKeHocPhi = (idKhoa, idky, tinhTrang, result) => {
 };
 
 SinhVien.DaDangKyHoc= (idsv, idky, result) => {
-  let query = `SELECT lophocphan.idlop, lophocphan.tenLop, lophocphan.thoiGianBd, lophocphan.thoiGianKt, lophocphan.phongHoc, giangvien.tengv, (concat(dangKy.soSinhVien, "/",lophocphan.soLuong)) AS siSo, monhoc.soTinChi, monhoc.tienHoc
+  let query = `SELECT lophocphan.idLop, lophocphan.tenLop, lophocphan.thoiGianBd, lophocphan.thoiGianKt, lophocphan.phongHoc, giangvien.tengv, (concat(dangKy.soSinhVien, "/",lophocphan.soLuong)) AS siSo, monhoc.soTinChi, monhoc.tienHoc
   FROM lophocphan
   INNER JOIN monhoc ON lophocphan.idmh = monhoc.idmh
   INNER JOIN giangvien ON lophocphan.idgv = giangvien.idgv
