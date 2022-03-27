@@ -173,6 +173,21 @@ const SinhVienController = {
         else res.send(data);
       });
   },
+  CoTheDangKyHoc: (req, res) => {
+    console.log(res.body);
+    if (!req.query.idsv) {
+      res.status(400).send({
+        message: "Nội dung trống!",
+      });
+    } else
+      SinhVien.CoTheDangKyHoc(req.query.idsv, req.query.idmh, (err, data) => {
+        if (err)
+          res.status(500).send({
+            message: err.message || "Lỗi khi xem học phần có thể đăng ký",
+          });
+        else res.send(data);
+      });
+  },
   DangKyHoc: (req, res) => {
     if (!req.query.idsv || !req.query.idLop) {
       res.status(400).send({
