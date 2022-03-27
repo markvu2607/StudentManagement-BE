@@ -235,13 +235,13 @@ SinhVien.DaDangKyHoc = (idsv, idky, result) => {
 };
 
 SinhVien.CoTheDangKyHoc= (idmh, result) => {
-  let query = `SELECT lophocphan.idLop, lophocphan.tenLop, lophocphan.thoiGianBd, lophocphan.thoiGianKt, lophocphan.phongHoc, giangvien.tengv, lophocphan.idLop, (concat( COALESCE(dkyhocphan.soSinhVien,'0'), "/",lophocphan.soLuong)) AS siSo, monhoc.soTinChi, monhoc.tienHoc
+  let query = `SELECT lophocphan.idLop, lophocphan.tenLop, lophocphan.thoiGianBd, lophocphan.thoiGianKt, lophocphan.phongHoc, giangvien.tengv, lophocphan.idLop, COALESCE(dkyhocphan.soSinhVien,'0') AS daDangKy ,lophocphan.soLuong, monhoc.soTinChi, monhoc.tienHoc
   FROM lophocphan
   INNER JOIN monhoc ON lophocphan.idmh = monhoc.idmh
   INNER JOIN giangvien ON lophocphan.idgv = giangvien.idgv
   LEFT JOIN (SELECT idsv, idlop, count(idLop) AS soSinhVien FROM dkyhocphan GROUP BY idLop, idsv) AS dkyhocphan 
   ON lophocphan.idLop = dkyhocphan.idLop OR (soSinhVien is null)
-  WHERE lophocphan.trangThai = "dangky";`;
+  WHERE lophocphan.trangThai = "dangky"`;
   if (idmh) {
     query += ` AND lophocphan.idmh = ${idmh}`;
   }
