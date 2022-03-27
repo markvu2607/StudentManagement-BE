@@ -271,7 +271,7 @@ SinhVien.DangKyHoc = (idsv, idLop, result) => {
 };
 
 SinhVien.HuyHocPhan = (idsv, idlop, result) => {
-  let query = `DELETE FROM dkyhocphan WHERE idsv = ${idsv} AND idlop = ${idlop};`;
+  let query = `DELETE FROM dkyhocphan WHERE idsv = ${idsv} AND idLop = ${idlop};`;
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);

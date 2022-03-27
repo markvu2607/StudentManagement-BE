@@ -189,12 +189,12 @@ const SinhVienController = {
       });
   },
   DangKyHoc: (req, res) => {
-    if (!req.query.idsv || !req.query.idLop) {
+    if (!req.params.idsv || !req.body.idLop) {
       res.status(400).send({
         message: "Nội dung trống!",
       });
     } else
-      SinhVien.DangKyHoc(req.query.idsv, req.query.idLop, (err, data) => {
+      SinhVien.DangKyHoc(req.params.idsv, req.body.idLop, (err, data) => {
         if (err)
           res.status(500).send({
             message: err.message || "Lỗi khi đăng ký học phần",
