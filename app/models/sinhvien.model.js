@@ -234,14 +234,14 @@ SinhVien.DaDangKyHoc = (idsv, idky, result) => {
   });
 };
 
-SinhVien.CoTheDangKyHoc= (idsv, idmh, result) => {
-  let query = `SELECT lophocphan.idLop, lophocphan.tenLop, lophocphan.thoiGianBd, lophocphan.thoiGianKt, lophocphan.phongHoc, giangvien.tengv, (concat(dangKy.soSinhVien, "/",lophocphan.soLuong)) AS siSo, monhoc.soTinChi, monhoc.tienHoc
+SinhVien.CoTheDangKyHoc= (idmh, result) => {
+  let query = `SELECT lophocphan.idLop, lophocphan.tenLop, lophocphan.thoiGianBd, lophocphan.thoiGianKt, lophocphan.phongHoc, giangvien.tengv, lophocphan.idLop, (concat( COALESCE(dkyhocphan.soSinhVien,'0'), "/",lophocphan.soLuong)) AS siSo, monhoc.soTinChi, monhoc.tienHoc
   FROM lophocphan
   INNER JOIN monhoc ON lophocphan.idmh = monhoc.idmh
   INNER JOIN giangvien ON lophocphan.idgv = giangvien.idgv
-  INNER JOIN (SELECT idlop, count(idLop) AS soSinhVien FROM dkyhocphan GROUP BY idLop) AS dangKy ON lophocphan.idLop = dangKy.idLop
-  INNER JOIN dkyhocphan ON lophocphan.idLop = dkyhocphan.idLop
-  WHERE dkyhocphan.idsv = ${idsv}`;
+  LEFT JOIN (SELECT idsv, idlop, count(idLop) AS soSinhVien FROM dkyhocphan GROUP BY idLop, idsv) AS dkyhocphan 
+  ON lophocphan.idLop = dkyhocphan.idLop OR (soSinhVien is null)
+  WHERE lophocphan.trangThai = "dangky";`;
   if (idmh) {
     query += ` AND lophocphan.idmh = ${idmh}`;
   }
@@ -257,8 +257,8 @@ SinhVien.CoTheDangKyHoc= (idsv, idmh, result) => {
 };
 
 
-SinhVien.DangKyHoc = (idsv, idlop, result) => {
-  let query = `INSERT INTO dkyhocphan SET idsv = ${idsv}, idlop = ${idlop};`;
+SinhVien.DangKyHoc = (idsv, idLop, result) => {
+  let query = `INSERT INTO dkyhocphan SET idsv = ${idsv}, idLop = ${idLop};`;
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);

@@ -180,7 +180,7 @@ const SinhVienController = {
         message: "Nội dung trống!",
       });
     } else
-      SinhVien.CoTheDangKyHoc(req.query.idsv, req.query.idmh, (err, data) => {
+      SinhVien.CoTheDangKyHoc(req.query.idmh, (err, data) => {
         if (err)
           res.status(500).send({
             message: err.message || "Lỗi khi xem học phần có thể đăng ký",
@@ -194,7 +194,7 @@ const SinhVienController = {
         message: "Nội dung trống!",
       });
     } else
-      SinhVien.DangKyHoc(req.query.idsv, req.query.idky, (err, data) => {
+      SinhVien.DangKyHoc(req.query.idsv, req.query.idLop, (err, data) => {
         if (err)
           res.status(500).send({
             message: err.message || "Lỗi khi đăng ký học phần",
