@@ -31,8 +31,8 @@ DiemRenLuyen.TimKiem = (idKhoa, idky, tensv, result) => {
     " INNER JOIN khoa ON sinhvien.idKhoa = khoa.idKhoa" +
     " INNER JOIN kyHoc ON kyHoc.idky = diemrenluyen.idky";
  if (idKhoa || idky || tensv)
-    query += ` WHERE sinhvien.idKhoa LIKE '%${idKhoa}%' AND kyHoc.idky LIKE '%${idky}%' AND sinhvien.tensv LIKE '%${tensv}%'`;
-    console.log(query);
+    query += ` WHERE sinhvien.idKhoa LIKE '%${idKhoa}%' AND kyHoc.idky LIKE '%${idky}%'`;
+    if (tensv) query += ` AND sinhvien.tensv LIKE '%${tensv}%'`
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);
