@@ -111,12 +111,25 @@ Lop.TimKiem = (idky, idgv, tenLop, result) => {
     ` FROM lophocphan INNER JOIN kyHoc ON lophocphan.idky = kyHoc.idky` +
     ` INNER JOIN giangvien ON lophocphan.idgv = giangvien.idgv` +
     ` INNER JOIN monhoc ON lophocphan.idmh = monhoc.idmh`;
-  if (idky || tenLop) {
-    query += ` WHERE kyHoc.idky LIKE '%${idky}%' AND lophocphan.tenLop LIKE '%${tenLop}%'`;
+  if (idky || tenLop || idgv) {
+    query += ` WHERE `
+  }
+  if (idky) {
+    query += ` kyHoc.idky LIKE '%${idky}%' AND `;
+  }
+  if (tenLop) {
+    query += ` lophocphan.tenLop LIKE '%${tenLop}%' AND `
   }
   if (idgv) {
-    query += `AND lophocphan.idgv LIKE '${idgv}' `
+    query += ` lophocphan.idgv LIKE '${idgv}' AND `
   }
+
+  if (idky || tenLop || idgv) {
+    query = query.slice(0, -4)
+  }
+
+
+
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);

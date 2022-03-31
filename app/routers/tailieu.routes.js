@@ -3,8 +3,8 @@ import taiLieuController from "../controllers/tailieu.controller.js"
 
 const router = express.Router()
 
-router.post("/", taiLieuController.Them);
+router.post("/upload", taiLieuController.Them);
 router.get("/:idLop", taiLieuController.XemTheoLop);
-router.get("/chitiet/:idtl", taiLieuController.Xem);
+router.get("/download/:filename", taiLieuController.Download);
 
 export default router

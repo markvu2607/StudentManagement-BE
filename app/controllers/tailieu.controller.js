@@ -1,20 +1,69 @@
 import TaiLieu from "../models/tailieu.model.js";
+import uploadFile from '../middleware/upload.js';
+import fs from 'fs'
+
+// export const upload = async (req, res) => {
+//   uploadFile(req, res, (err) => {
+
+//   })
+//   res.send('success')
+// };
+
+// export const getListFiles = (req, res) => {
+//   const directoryPath = __basedir + "/app/uploads/";
+//   fs.readdir(directoryPath, function (err, files) {
+//     if (err) {
+//       res.status(500).send({
+//         message: "Unable to scan files!",
+//       });
+//     }
+//     let fileInfos = [];
+//     files.forEach((file) => {
+//       fileInfos.push({
+//         name: file,
+//         url: baseUrl + file,
+//       });
+//     });
+//     res.status(200).send(fileInfos);
+//   });
+// };
+// export const download = (req, res) => {
+//   const fileName = req.params.name;
+//   const directoryPath = __basedir + "/app/uploads/";
+//   res.download(directoryPath + fileName, fileName, (err) => {
+//     if (err) {
+//       res.status(500).send({
+//         message: "Could not download the file. " + err,
+//       });
+//     }
+//   });
+// };
+
 
 const TaiLieuController = {
   Them: (req, res) => {
-    if (!req.body.tenTaiLieu || !req.body.duongDan || !req.body.idLop) {
-      res.status(400).send({
-        message: "Nội dung trống!",
-      });
-    } else {
-      TaiLieu.Them(new TaiLieu(req.body), (err, data) => {
-        if (err)
-          res.status(500).send({
-            message: err.message || "Có lỗi thêm tài liệu.",
+    uploadFile(req, res, (err) => {
+      if (err) {
+        res.send({ 'Err': err })
+      }
+      else {
+        if (!req.body.tenTaiLieu || !req.body.idLop) {
+          res.status(400).send({
+            message: "Nội dung trống!",
           });
-        else res.send(data);
-      });
-    }
+        } else {
+          TaiLieu.Them(new TaiLieu({ ...req.body, duongDan: `uploads/${req.file.filename}` }), (err, data) => {
+            if (err)
+              res.status(500).send({
+                message: err.message || "Có lỗi thêm tài liệu.",
+              });
+            else {
+              res.status(200).send({ status: 'success' });
+            }
+          });
+        }
+      }
+    })
   },
   XemTheoLop: (req, res) => {
     TaiLieu.XemTheoLop(req.params.idLop, (err, data) => {
@@ -22,22 +71,20 @@ const TaiLieuController = {
         res.status(500).send({
           message: res.message || "ERROR",
         });
-      } else res.send(data);
+      } else {
+        res.status(200).send(data)
+      };
     });
   },
-  Xem: (req, res) => {
-    TaiLieu.Xem(req.params.idtl, (err, data) => {
+  Download: (req, res) => {
+    const fileName = req.params.filename;
+    const directoryPath = "./app/uploads/";
+    res.download(directoryPath + fileName, fileName, (err) => {
       if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Không tìm thấy tài liệu id ${req.params.idtl}.`,
-          });
-        } else {
-          res.status(500).send({
-            message: res.message || "Lỗi tìm tài liệu id " + req.params.idtl,
-          });
-        }
-      } else res.send(data);
+        res.status(500).send({
+          message: "Could not download the file. " + err,
+        });
+      }
     });
   },
 };
