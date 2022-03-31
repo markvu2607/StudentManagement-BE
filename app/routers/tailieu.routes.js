@@ -6,5 +6,6 @@ const router = express.Router()
 router.post("/upload", taiLieuController.Them);
 router.get("/:idLop", taiLieuController.XemTheoLop);
 router.get("/download/:filename", taiLieuController.Download);
+router.get("/", taiLieuController.Search);
 
 export default router

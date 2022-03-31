@@ -39,6 +39,22 @@ TaiLieu.XemTheoLop = (idLop, result) => {
   );
 };
 
+TaiLieu.Search = (tenTaiLieu, idLop, result) => {
+  queryDB(
+    `SELECT * FROM tailieu WHERE tenTaiLieu = '${tenTaiLieu}' AND idLop = '${idLop}'`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      console.log("Tìm kiếm tài liệu theo tên : ", res);
+      result(null, res);
+      return;
+    }
+  );
+};
+
 // TaiLieu.Xem = (idtl, result) => {
 //   queryDB(`SELECT * FROM taiLieu WHERE idtl = ${idtl}`, (err, res) => {
 //     if (err) {

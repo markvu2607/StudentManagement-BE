@@ -87,6 +87,17 @@ const TaiLieuController = {
       }
     });
   },
+  Search: (req, res) => {
+    TaiLieu.Search(req.query.tenTaiLieu, req.query.idLop, (err, data) => {
+      if (err) {
+        res.status(500).send({
+          message: res.message || "ERROR",
+        });
+      } else {
+        res.status(200).send(data)
+      };
+    });
+  },
 };
 
 export default TaiLieuController;
