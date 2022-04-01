@@ -21,14 +21,12 @@ import ctLichThiRoutes from "./app/routers/ctlichthi.routes.js"
 import diemDanhRoutes from "./app/routers/diemdanh.routes.js"
 import taiLieuRoutes from "./app/routers/tailieu.routes.js"
 import hocPhiRoutes from "./app/routers/hocphi.routes.js"
-import multer from 'multer'
 
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
 
-// app.use(multer.array());
 app.use(express.static('public'));
 
 app.use(bodyParser.json())
