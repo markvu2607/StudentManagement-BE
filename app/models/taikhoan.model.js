@@ -31,11 +31,7 @@ TaiKhoan.Them = (taiKhoanMoi, result) => {
 TaiKhoan.Sua = (idtk, taiKhoan, result) => {
   queryDB(
     "UPDATE taikhoan SET chucNang = ?, trangThai = ? WHERE idtk = ?",
-    [
-      taiKhoan.chucNang,
-      taiKhoan.trangThai,
-      idtk,
-    ],
+    [taiKhoan.chucNang, taiKhoan.trangThai, idtk],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -54,7 +50,8 @@ TaiKhoan.Sua = (idtk, taiKhoan, result) => {
 
 TaiKhoan.Khoa = (idtk, result) => {
   queryDB(
-    "UPDATE taikhoan SET trangThai = 0 WHERE idtk = ?", idtk,
+    "UPDATE taikhoan SET trangThai = 0 WHERE idtk = ?",
+    idtk,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -84,7 +81,7 @@ TaiKhoan.TimKiem = (chucNang, tenDangNhap, result) => {
     }
     result(null, res);
   });
-}
+};
 
 TaiKhoan.Xem = (idtk, result) => {
   queryDB(`SELECT * FROM taikhoan WHERE idtk = ${idtk}`, (err, res) => {
@@ -100,6 +97,22 @@ TaiKhoan.Xem = (idtk, result) => {
     }
     result({ kind: "not_found" }, null);
   });
-}
+};
+
+TaiKhoan.DoiMatKhau = (idtk, matKhauMoi, result) => {
+  queryDB(
+    "UPDATE taikhoan SET matKhau = ? WHERE idtk = ?",
+    [matKhauMoi, idtk],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      console.log("Đã cập nhật tài khoản: ", idtk);
+      result(null, { message: "Mật khẩu đã được cập nhật" });
+    }
+  );
+};
 
 export default TaiKhoan;

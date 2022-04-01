@@ -1,5 +1,5 @@
-import TaiKhoan from "../models/taikhoan.model.js"
-import bcrypt from "bcrypt"
+import TaiKhoan from "../models/taikhoan.model.js";
+import bcrypt from "bcrypt";
 
 const TaiKhoanController = {
   Them: (req, res) => {
@@ -29,10 +29,7 @@ const TaiKhoanController = {
     }
   },
   Sua: (req, res) => {
-    if (
-      !req.body.chucNang ||
-      !req.body.trangThai
-    ) {
+    if (!req.body.chucNang || !req.body.trangThai) {
       res.status(400).send({
         message: "Nội dung trống!",
       });
@@ -87,7 +84,7 @@ const TaiKhoanController = {
           });
         }
       } else res.send(data);
-    })
+    });
   },
   Xem: (req, res) => {
     TaiKhoan.Xem(req.params.idtk, (err, data) => {
@@ -103,7 +100,49 @@ const TaiKhoanController = {
         }
       } else res.send(data);
     });
-  }
-}
+  },
+  DoiMatKhau: (req, res) => {
+    if (
+      !req.body.matKhauCuHash ||
+      !req.body.matKhauCu ||
+      !req.body.matKhauMoi
+    ) {
+      res.status(400).send({
+        message: "Nội dung trống!",
+      });
+    } else {
+      const matKhauMoi = bcrypt.hashSync(req.body.matKhauMoi, 10);
+      const matKhauCuHash = req.body.matKhauCuHash;
+      const matKhauCu = req.body.matKhauCu;
 
-export default TaiKhoanController
+      const validPass = bcrypt.compareSync(matKhauCu, matKhauCuHash);
+      const validateCuMoi = bcrypt.compareSync(
+        req.body.matKhauMoi,
+        matKhauCuHash
+      );
+      if (!validPass) {
+        res.status(600).send({
+          message: "Mật khẩu cũ không đúng",
+        });
+      } else if (validateCuMoi) {
+        res.status(450).send({
+          message: "Mật khẩu mới trùng mật khẩu cũ. Mời nhập lại",
+        });
+      } else {
+        TaiKhoan.DoiMatKhau(req.params.idtk, matKhauMoi, (err, data) => {
+          if (err) {
+            res.status(500).send({
+              message:
+                res.message ||
+                "Lỗi khi cập nhật mật khẩu tài khoản id " + req.params.idtk,
+            });
+          } else {
+            res.send(data);
+          }
+        });
+      }
+    }
+  },
+};
+
+export default TaiKhoanController;
