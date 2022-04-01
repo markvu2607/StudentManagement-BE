@@ -1,4 +1,4 @@
-import Khoa from "../models/khoa.model.js"
+import Khoa from "../models/khoa.model.js";
 
 const KhoaController = {
   Them: (req, res) => {
@@ -10,7 +10,7 @@ const KhoaController = {
       Khoa.Them(new Khoa(req.body), (err, data) => {
         if (err)
           res.status(500).send({
-            message: res.message || "ERROR",
+            message: err.message || "ERROR",
           });
         else res.send(data);
       });
@@ -65,7 +65,7 @@ const KhoaController = {
         }
       } else res.send(data);
     });
-  }
-}
+  },
+};
 
-export default KhoaController
+export default KhoaController;

@@ -8,7 +8,7 @@ Khoa.Them = (khoaMoi, result) => {
   queryDB("INSERT INTO khoa SET tenKhoa = ?", khoaMoi.tenKhoa, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(err, null);
+      result(null, err);
       return;
     }
     console.log("Đã tạo khoa: ", { idKhoa: res.insertId, ...khoaMoi });

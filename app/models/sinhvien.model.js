@@ -172,12 +172,12 @@ SinhVien.ThongKeHocBong = (idKhoa, idky, gioiHan, result) => {
     `SELECT sinhvien.idsv, sinhvien.tensv, khoa.tenKhoa, kyHoc.tenKyHoc, diem.diemTichLuy AS DiemTichLuy, diemrenluyen.diem AS DiemRenLuyen` +
     ` FROM sinhvien` +
     ` INNER JOIN (SELECT * FROM khoa WHERE khoa.idKhoa LIKE '${idKhoa}') AS khoa ON sinhvien.idKhoa = khoa.idKhoa` +
-    ` INNER JOIN (SELECT avg(F_ConvertCtoN(diem.diemHeSo4)) AS diemTichLuy, idsv, idLop FROM diem GROUP BY idsv) AS diem ON sinhvien.idsv = diem.idsv` +
+    ` INNER JOIN (SELECT avg(F_ConvertCtoN(diem.diemHeSo4)) AS diemTichLuy, idsv, idLop FROM diem GROUP BY idsv, idLop) AS diem ON sinhvien.idsv = diem.idsv` +
     ` INNER JOIN diemrenluyen ON sinhvien.idsv = diemrenluyen.idsv` +
     ` INNER JOIN (SELECT * FROM kyHoc WHERE kyHoc.idky LIKE '${idky}') AS kyHoc ON diemrenluyen.idky = kyHoc.idky` +
     ` INNER JOIN lophocphan ON diem.idLop = lophocphan.idLop` +
     ` WHERE diem.diemTichLuy > 3.2 AND diemrenluyen.diem > 70` +
-    ` Group By sinhvien.idsv` +
+    ` Group By sinhvien.idsv, kyHoc.tenKyHoc, diem.diemTichLuy` +
     ` ORDER BY (diem.diemTichLuy + diemrenluyen.diem) DESC`;
   if (gioiHan) query += ` LIMIT ${gioiHan};`;
   queryDB(query, (err, res) => {
