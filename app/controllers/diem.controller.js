@@ -87,6 +87,20 @@ const DiemController = {
         }
       } else res.send(data);
     });
+  },DiemTheoLop: (req, res) => {
+    Diem.DiemTheoLop(req.params.idLop, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Không tìm thấy điểm`,
+          });
+        } else {
+          res.status(500).send({
+            message: res.message || "Lỗi khi tìm điểm",
+          });
+        }
+      } else res.send(data);
+    });
   },
 };
 export default DiemController;

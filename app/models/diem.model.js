@@ -81,6 +81,22 @@ Diem.Xem = (idsv, result) => {
   );
 };
 
+Diem.DiemTheoLop = (idLop, result) => {
+  let query = `SELECT diem.idDiem, sinhvien.idsv, sinhvien.tensv, lophocphan.idLop, lophocphan.tenLop, diem.diemQuaTrinh, diem.diemThi, diem.diemTrungBinh, diem.diemHeSo4
+  FROM sinhvien
+  INNER JOIN diem ON sinhvien.idsv = diem.idsv
+  INNER JOIN lophocphan ON diem.idLop = lophocphan.idLop
+  WHERE lophocphan.idLop = ${idLop}`;
+  queryDB(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log("Thống kê điểm theo lớp: ", res);
+    result(null, res);
+  });
+};
 Diem.TimKiem = (tenLop, idky, result) => {
   let query =
     "SELECT diem.idDiem, sinhvien.idsv, sinhvien.tensv, lophocphan.idLop, lophocphan.tenLop, diem.diemQuaTrinh, diem.diemThi, diem.diemTrungBinh, diem.diemHeSo4" +
