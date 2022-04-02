@@ -53,8 +53,7 @@ const SinhVienController = {
       !req.body.namSinhMe ||
       !req.body.ngheNghiepMe ||
       !req.body.sdtMe ||
-      !req.body.idKhoa ||
-      !req.body.idtk
+      !req.body.idKhoa
     ) {
       res.status(400).send({
         message: "Nội dung trống!",

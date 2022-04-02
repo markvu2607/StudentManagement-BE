@@ -63,7 +63,7 @@ SinhVien.Them = (sinhVienMoi, result) => {
 SinhVien.Sua = (idsv, sinhVien, result) => {
   queryDB(
     "UPDATE sinhvien SET tenSV = ?, ngaySinh = ?, laNam = ?, kyTucXa = ?, queQuan = ?, diaChi = ?, sdt = ?, cccd = ?, " +
-      "tenBo = ?, namSinhBo = ?, ngheNghiepBo = ?, sdtBo = ?, tenMe = ?, namSinhMe = ?, ngheNghiepMe = ?, sdtMe = ?, idKhoa = ?, idtk = ? WHERE idsv = ?",
+      "tenBo = ?, namSinhBo = ?, ngheNghiepBo = ?, sdtBo = ?, tenMe = ?, namSinhMe = ?, ngheNghiepMe = ?, sdtMe = ?, idKhoa = ? WHERE idsv = ?",
     [
       sinhVien.tenSV,
       sinhVien.ngaySinh,
@@ -82,7 +82,6 @@ SinhVien.Sua = (idsv, sinhVien, result) => {
       sinhVien.ngheNghiepMe,
       sinhVien.sdtMe,
       sinhVien.idKhoa,
-      sinhVien.idtk,
       idsv,
     ],
     (err, res) => {
