@@ -109,8 +109,8 @@ TaiKhoan.DoiMatKhau = (idtk, matKhauMoi, result) => {
         result(null, err);
         return;
       }
-      console.log("Đã cập nhật tài khoản: ", idtk);
-      result(null, { message: "Mật khẩu đã được cập nhật" });
+      console.log("Đổi mật khẩu thành công.: ", idtk);
+      result(null, { message: "Đổi mật khẩu thành công." });
     }
   );
 };

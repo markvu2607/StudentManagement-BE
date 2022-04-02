@@ -122,7 +122,7 @@ const TaiKhoanController = {
       );
       if (!validPass) {
         res.status(600).send({
-          message: "Mật khẩu cũ không đúng",
+          message: "Nhập sai mật khẩu cũ",
         });
       } else if (validateCuMoi) {
         res.status(450).send({
