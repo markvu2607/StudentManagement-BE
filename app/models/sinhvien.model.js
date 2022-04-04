@@ -173,7 +173,7 @@ SinhVien.ThongKeHocBong = (idKhoa, idky, gioiHan, result) => {
     ` INNER JOIN (SELECT * FROM khoa WHERE khoa.idKhoa = ${idKhoa}) AS khoa ON sinhvien.idKhoa = khoa.idKhoa` +
     ` INNER JOIN (SELECT avg(F_ConvertCtoN(diem.diemHeSo4)) AS diemTichLuy, idsv, idLop FROM diem GROUP BY idsv, idLop) AS diem ON sinhvien.idsv = diem.idsv` +
     ` INNER JOIN diemrenluyen ON sinhvien.idsv = diemrenluyen.idsv` +
-    ` INNER JOIN (SELECT * FROM kyHoc WHERE kyHoc.idky = '${idky}) AS kyHoc ON diemrenluyen.idky = kyHoc.idky` +
+    ` INNER JOIN (SELECT * FROM kyHoc WHERE kyHoc.idky = ${idky}) AS kyHoc ON diemrenluyen.idky = kyHoc.idky` +
     ` WHERE diem.diemTichLuy > 3.2 AND diemrenluyen.diem > 70` +
     ` Group By sinhvien.idsv, kyHoc.tenKyHoc, diem.diemTichLuy` +
     ` ORDER BY (diem.diemTichLuy + diemrenluyen.diem) DESC`;
