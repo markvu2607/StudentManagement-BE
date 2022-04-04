@@ -87,7 +87,7 @@ SinhVien.Sua = (idsv, sinhVien, result) => {
     (err, res) => {
       if (err) {
         console.log("error: ", err);
-        result(null, err);
+        result(err, null);
         return;
       }
       if (res.affectedRows == 0) {
@@ -124,7 +124,7 @@ SinhVien.TimKiem = (tuKhoa, result) => {
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
     console.log("Tìm thấy sinh viên: ", res);
@@ -158,7 +158,7 @@ SinhVien.ThongKeKTX = (kyTucXa, result) => {
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
     console.log("Sinh viên hiện ở trong ktx: ", res);
@@ -181,7 +181,7 @@ SinhVien.ThongKeHocBong = (idKhoa, idky, gioiHan, result) => {
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
     console.log("Sinh viên có học bổng: ", res);
@@ -202,7 +202,7 @@ SinhVien.ThongKeHocPhi = (idKhoa, idky, tinhTrang, result) => {
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
     console.log("Sinh viên: ", res);
@@ -224,7 +224,7 @@ SinhVien.DaDangKyHoc = (idsv, idky, result) => {
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
     console.log("Học phần đã đăng ký: ", res);
@@ -246,7 +246,7 @@ SinhVien.CoTheDangKyHoc= (idmh, result) => {
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
     console.log("Học phần có thể đăng ký: ", res);
@@ -273,7 +273,7 @@ SinhVien.HuyHocPhan = (idsv, idlop, result) => {
   queryDB(query, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
     console.log("Hủy học phần: ", res);
